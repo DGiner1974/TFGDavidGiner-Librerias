@@ -116,20 +116,22 @@ public class TreeContainerBeanInfo extends SimpleBeanInfo {
                 }
             };
             
+            final String CATEGORIA_PROPIA = "Propiedades del Contenedor";
+            
             // Configuramos los metadatos de esta propiedad para el IDE.
             pathDescriptor.setDisplayName("Nodo Visible por Defecto");
             pathDescriptor.setShortDescription("Define qué nodo del árbol se muestra al iniciar en el diseñador.");
             
+            pathDescriptor.setValue("category", CATEGORIA_PROPIA);
+            
             // Añadimos nuestro descriptor personalizado a la lista.
             propertyList.add(pathDescriptor);
             
-            final String CATEGORIA_PROPIA = "Propiedades del Contenedor";
-
             // Se itera sobre la lista final de propiedades para aplicar personalizaciones.
             for (PropertyDescriptor pd : propertyList) {
                 String propertyName = pd.getName();
                 // Se agrupan las propiedades personalizadas en una categoría propia.
-                if (propertyName.equals("designTimeSelectionPath") || propertyName.equals("estructuraArbol")) {
+                if (propertyName.equals("estructuraArbol")) {
                     pd.setValue("category", CATEGORIA_PROPIA);
                 }
                 

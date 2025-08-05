@@ -37,30 +37,25 @@ public class NewJFrame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        treeContainer21 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
-        componenteA1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
+        treeContainer1 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        treeContainer21.setDesignTimeSelectionPath("JTree, colors, blue");
-        treeContainer21.getContentPane().add(componenteA1);
-        componenteA1.setBounds(90, 120, 114, 38);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(treeContainer21, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(treeContainer21, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -95,8 +90,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Declaración de variables de componentes de la UI">
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA1;
-    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer21;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer1;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
 }
