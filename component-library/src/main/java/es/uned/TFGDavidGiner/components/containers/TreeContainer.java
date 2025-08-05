@@ -1,0 +1,498 @@
+package es.uned.TFGDavidGiner.components.containers;
+
+import es.uned.TFGDavidGiner.core.BaseComponent;
+import es.uned.TFGDavidGiner.core.BaseContainer;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+/**
+ * Contenedor que sincroniza un árbol de navegación ({@link javax.swing.JTree}) con un panel
+ * de visualización por capas ({@link javax.swing.JLayeredPane}).
+ * <p>
+ * Este componente extiende {@link BaseContainer} y se estructura mediante un {@link javax.swing.JSplitPane}.
+ * A la izquierda se muestra un árbol, y a la derecha, el contenido. Al seleccionar un
+ * nodo hoja en el árbol, el componente correspondiente se hace visible en el panel
+ * derecho, ocultando los demás.
+ * <p>
+ * Los componentes hijos se añaden al {@code JLayeredPane} interno y deben ser
+ * instancias de {@link BaseComponent}. Automáticamente son envueltos en un
+ * {@link JScrollPane} para permitir el desplazamiento.
+ *
+ * @author David Giner
+ * @version 1.0
+ * @since 13-07-2025
+ */
+public class TreeContainer extends BaseContainer {
+
+    //<editor-fold defaultstate="collapsed" desc="Campos de la clase y componentes UI">
+    
+    /**
+     * El panel por capas donde se muestran los componentes hijos.
+     */
+    private JLayeredPaneCustom jLayeredPane1;
+    /**
+     * El panel de desplazamiento que contiene el árbol de navegación.
+     */
+    private javax.swing.JScrollPane jScrollPane1;
+    /**
+     * El panel divisor que separa el árbol del contenido.
+     */
+    private javax.swing.JSplitPane jSplitPane1;
+    /**
+     * El árbol de navegación que controla qué componente es visible.
+     */
+    private javax.swing.JTree jTree1;
+    
+    /**
+     * El modelo de datos que define la estructura del JTree.
+     */
+    private TreeModel tree;
+
+    /**
+     * Mapa que conecta cada nodo del árbol ({@link TreeNode}) con su componente de UI
+     * correspondiente ({@link Component}). Es el núcleo de la sincronización.
+     */
+    private final Map<TreeNode, Component> nodeComponentMap = new HashMap<>();
+
+    /**
+     * Indicador para controlar el estado de inicialización del componente.
+     * Se usa para prevenir la ejecución de lógica de actualización durante la carga
+     * inicial del componente en un diseñador visual.
+     */
+    private boolean isDuringInitializationOrLoading = false;
+    
+    /**
+     * Soporte para la gestión de eventos de cambio de propiedad (PropertyChangeEvent).
+     * Esencial para el cumplimiento del estándar JavaBeans.
+     */
+    private PropertyChangeSupport pcs;
+    
+    /**
+     * Almacena la ruta de selección del árbol en tiempo de diseño como una cadena.
+     * Esta propiedad permite preseleccionar un nodo desde el editor de propiedades del IDE.
+     */
+    private String designTimeSelectionPath;
+    //</editor-fold>
+
+    /**
+     * Constructor por defecto.
+     * <p>
+     * Inicializa los componentes visuales (JSplitPane, JTree, JLayeredPane),
+     * establece el layout y marca el inicio del modo de inicialización.
+     */
+    public TreeContainer() {
+        try {
+            isDuringInitializationOrLoading = true;
+            setLayout(new BorderLayout());
+            setSize(400, 400);
+            setMinimumSize(new Dimension(400, 400));
+            initComponents();
+            // Establece la posición inicial del divisor para que ambos paneles sean visibles.
+            jSplitPane1.setDividerLocation(150);
+                               
+            // 1. Crear un modelo de árbol válido pero con un único nodo raíz
+            TreeNode rootNode = new DefaultMutableTreeNode("root");
+            TreeModel emptyModel = new javax.swing.tree.DefaultTreeModel(rootNode);
+            // 2. Asignar este modelo a la propiedad al iniciar el componente
+            this.setEstructuraArbol(emptyModel);
+            // 3. (Opcional) Ocultar el nodo raíz para que el árbol parezca totalmente vacío
+            jTree1.setRootVisible(false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al inicializar TreeContainer: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Este método se llama automáticamente justo antes de que el componente sea visible.
+     * <p>
+     * Realiza la vinculación automática entre los nodos del árbol y los componentes,
+     * y finaliza el modo de inicialización para permitir la ejecución de la lógica de actualización.
+     */
+    @Override
+    public void addNotify() {
+        super.addNotify(); // Es muy importante llamar al método de la clase padre.
+        performAutomaticLinking();
+        SwingUtilities.invokeLater(() -> isDuringInitializationOrLoading = false);
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Lógica de Vinculación Automática (Linking)">
+
+    /**
+     * Realiza la vinculación automática entre los nodos hoja del árbol y los
+     * componentes hijos.
+     * <p>
+     * Este método limpia cualquier mapeo existente y luego asocia cada nodo hoja
+     * con un componente hijo basándose en su orden de adición.
+     */
+    private void performAutomaticLinking() {
+        nodeComponentMap.clear();
+
+        if (jTree1.getModel() == null) {
+            return; // No hay nada que vincular si no hay modelo de árbol.
+        }
+
+        // 1. Obtiene todos los nodos hoja del árbol en orden.
+        List<TreeNode> leafNodes = getAllLeafNodes();
+        
+        // 2. Obtiene todos los componentes añadidos por el usuario.
+        List<Component> userComponents = getContainedUserComponents();
+
+        // 3. Vincula nodos con componentes en el mapa.
+        int linkCount = Math.min(leafNodes.size(), userComponents.size());
+        for (int i = 0; i < linkCount; i++) {
+            nodeComponentMap.put(leafNodes.get(i), userComponents.get(i));
+        }
+    }
+
+    /**
+     * Obtiene una lista de todos los nodos hoja del árbol.
+     * @return Una {@link List} de objetos {@link TreeNode}.
+     */
+    private List<TreeNode> getAllLeafNodes() {
+        List<TreeNode> leafNodes = new ArrayList<>();
+        if (jTree1.getModel().getRoot() instanceof TreeNode) {
+            findLeaves((TreeNode) jTree1.getModel().getRoot(), leafNodes);
+        }
+        return leafNodes;
+    }
+
+    /**
+     * Método auxiliar recursivo para encontrar todos los nodos hoja.
+     * @param node El nodo actual a explorar.
+     * @param leaves La lista donde se acumulan los nodos hoja encontrados.
+     */
+    private void findLeaves(TreeNode node, List<TreeNode> leaves) {
+        if (node.isLeaf()) {
+            leaves.add(node);
+        } else {
+            Enumeration<? extends TreeNode> children = node.children();
+            while (children.hasMoreElements()) {
+                findLeaves(children.nextElement(), leaves);
+            }
+        }
+    }
+
+    /**
+     * Obtiene los componentes de usuario reales (desenvueltos del JScrollPane)
+     * contenidos dentro del JLayeredPane.
+     * @return Una {@link List} de los componentes añadidos.
+     */
+    private List<Component> getContainedUserComponents() {
+        List<Component> userComponents = new ArrayList<>();
+        for (Component wrapper : jLayeredPane1.getComponents()) {
+            if (wrapper instanceof JScrollPane) {
+                userComponents.add(((JScrollPane) wrapper).getViewport().getView());
+            }
+        }
+        return userComponents;
+    }
+    //</editor-fold>
+    
+    /**
+     * Inicializa los componentes internos de Swing (JSplitPane, JTree, etc.)
+     * y configura sus listeners.
+     */
+    private void initComponents() {
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree(); 
+        jLayeredPane1 = new JLayeredPaneCustom();
+        
+        // El JLayeredPane necesita un layout nulo para posicionar los componentes por coordenadas.
+        jLayeredPane1.setLayout(null); 
+
+        jScrollPane1.setViewportView(jTree1);
+        jSplitPane1.setLeftComponent(jScrollPane1);
+        jSplitPane1.setRightComponent(jLayeredPane1);
+        this.add(jSplitPane1, BorderLayout.CENTER);
+
+        // Listener para reaccionar a la selección de nodos en el árbol.
+        jTree1.addTreeSelectionListener(this::jTree1ValueChanged);
+
+        // Listener para redimensionar los componentes hijos cuando el panel cambie de tamaño.
+        jLayeredPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                for (Component comp : jLayeredPane1.getComponents()) {
+                    comp.setBounds(0, 0, jLayeredPane1.getWidth(), jLayeredPane1.getHeight());
+                }
+            }
+        });
+    }
+
+    /**
+     * Manejador de eventos para la selección de nodos en el JTree.
+     * <p>
+     * Hace visible el componente asociado al nodo seleccionado y oculta los demás.
+     * @param evt El evento de selección del árbol.
+     */
+    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {
+        Object lastNode = jTree1.getLastSelectedPathComponent();
+        if (!(lastNode instanceof TreeNode)) return;
+
+        // Busca el componente asociado al nodo seleccionado.
+        Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
+
+        // Itera sobre los JScrollPane hijos y hace visible solo el que contiene al componente correcto.
+        for (Component scrollPane : jLayeredPane1.getComponents()) {
+            if (scrollPane instanceof JScrollPane) {
+                Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
+                scrollPane.setVisible(innerComponent == componentToShow);
+            }
+        }
+        jLayeredPane1.revalidate();
+        jLayeredPane1.repaint();
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Getters y Setters de Propiedades">
+    
+    /**
+     * Devuelve el panel de contenido interno.
+     * Este método es el "containerDelegate" para que el IDE sepa dónde añadir los componentes.
+     * @return El {@link JLayeredPane} interno.
+     */
+    public JLayeredPane getContentPane() {
+        return jLayeredPane1;
+    }
+
+    /**
+     * Obtiene el modelo de datos del árbol.
+     * @return El {@link TreeModel} actual.
+     */
+    public TreeModel getEstructuraArbol() {
+        return tree;
+    }
+
+    /**
+     * Establece un nuevo modelo de datos para el árbol.
+     * @param newTree El nuevo {@link TreeModel}.
+     */
+    public void setEstructuraArbol(TreeModel newTree) {
+        TreeModel oldTree = this.tree;
+        this.tree = newTree;
+        this.jTree1.setModel(newTree);
+        performAutomaticLinking(); // Vuelve a vincular con el nuevo árbol.
+        getSupport().firePropertyChange("estructuraArbol", oldTree, newTree);
+        setDesignTimeSelectionPath(""); // Resetea la selección.
+    }
+
+    /**
+     * Obtiene la ruta de selección en tiempo de diseño como una cadena.
+     * @return La ruta de selección.
+     */
+    public String getDesignTimeSelectionPath() {
+        return designTimeSelectionPath;
+    }
+
+    /**
+     * Establece la selección del árbol en tiempo de diseño a partir de una cadena de texto.
+     * @param pathString La ruta al nodo, con elementos separados por ", ".
+     */
+    public void setDesignTimeSelectionPath(String pathString) {
+        this.designTimeSelectionPath = pathString;
+        TreePath path = findPathFromString(pathString);
+        if (path != null) {
+            jTree1.setSelectionPath(path);
+            jTree1.scrollPathToVisible(path);
+        }
+    }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        // Devuelve un tamaño por defecto para que el diseñador de GUI sepa cómo dibujarlo.
+        return new Dimension(400, 400);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Métodos Auxiliares para Navegación del Árbol">
+    
+    /**
+     * Busca un {@link TreePath} a partir de una representación en cadena.
+     * @param pathString La ruta como cadena (ej. "Raíz, NodoHijo, NodoHoja").
+     * @return El {@link TreePath} correspondiente, o {@code null} si no se encuentra.
+     */
+    private TreePath findPathFromString(String pathString) {
+        if (pathString == null || pathString.isEmpty() || !(jTree1.getModel().getRoot() instanceof DefaultMutableTreeNode)) {
+            return null;
+        }
+        try {
+            DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) jTree1.getModel().getRoot();
+            String[] pathElements = pathString.split(", ");
+
+            if (!currentNode.getUserObject().toString().equals(pathElements[0])) return null;
+
+            TreePath treePath = new TreePath(currentNode);
+            for (int i = 1; i < pathElements.length; i++) {
+                DefaultMutableTreeNode nextNode = findChild(currentNode, pathElements[i]);
+                if (nextNode != null) {
+                    currentNode = nextNode;
+                    treePath = treePath.pathByAddingChild(currentNode);
+                } else {
+                    return null; // No se encontró un elemento de la ruta.
+                }
+            }
+            return treePath;
+        } catch (Exception e) {
+            return null; // Retorna null en caso de cualquier error.
+        }
+    }
+
+    /**
+     * Busca un nodo hijo con un objeto de usuario específico.
+     * @param parent El nodo padre donde buscar.
+     * @param userObject El objeto de usuario (texto del nodo) a encontrar.
+     * @return El nodo hijo encontrado, o {@code null}.
+     */
+    private DefaultMutableTreeNode findChild(DefaultMutableTreeNode parent, String userObject) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            if (parent.getChildAt(i) instanceof DefaultMutableTreeNode) {
+                DefaultMutableTreeNode child = (DefaultMutableTreeNode) parent.getChildAt(i);
+                if (child.getUserObject().toString().equals(userObject)) {
+                    return child;
+                }
+            }
+        }
+        return null;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Gestión de PropertyChangeListeners">
+    
+    /**
+     * Obtiene la instancia de PropertyChangeSupport, creándola si es necesario.
+     * @return La instancia de PropertyChangeSupport.
+     */
+    private PropertyChangeSupport getSupport() {
+        if (pcs == null) {
+            pcs = new PropertyChangeSupport(this);
+        }
+        return pcs;
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        getSupport().addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        getSupport().removePropertyChangeListener(listener);
+    }
+    //</editor-fold>
+    
+    /**
+     * Subclase personalizada de JLayeredPane que envuelve automáticamente los
+     * componentes hijos en JScrollPanes y valida su tipo.
+     */
+    private class JLayeredPaneCustom extends JLayeredPane {
+        
+        /**
+        * Prepara un componente antes de ser añadido, deshabilitando su borde
+        * si se trata de un contenedor.
+        * @param component El componente a preparar.
+        */
+        private void prepareComponentForAddition(Component component) {
+            if (component instanceof BaseContainer) {
+                ((BaseContainer) component).setShowBorder(false);
+            }
+        }
+        
+        /**
+         * Crea un JScrollPane para contener el componente dado.
+         * @param componente El componente a envolver.
+         * @return Un nuevo JScrollPane que contiene el componente.
+         */
+        private JScrollPane crearPanelContenedor(Component componente) {
+            JScrollPane panelContenedor = new JScrollPane(componente);
+            panelContenedor.setBounds(0, 0, this.getWidth(), this.getHeight());
+            panelContenedor.setVisible(false); // Por defecto, los componentes están ocultos.
+            return panelContenedor;
+        }
+        
+        //<editor-fold defaultstate="collapsed" desc="Sobrescritura de métodos 'add'">
+        @Override
+        public Component add(Component comp, int index) {
+            // Valida que solo se puedan añadir componentes del framework.
+            if (!(comp instanceof BaseComponent)) {
+                if (!TreeContainer.this.isDuringInitializationOrLoading) {
+                    JOptionPane.showMessageDialog(this,
+                            "Solo se pueden arrastrar componentes de tipo BaseComponent a este contenedor.",
+                            "Componente no válido", JOptionPane.WARNING_MESSAGE);
+                }
+                return comp;
+            }
+            
+            // Llamar al método de ayuda
+            prepareComponentForAddition(comp);
+            
+            // Envuelve el componente válido en un JScrollPane y lo añade.
+            JScrollPane panelContenedor = crearPanelContenedor(comp);
+            super.add(panelContenedor, index);
+            performAutomaticLinking(); // Vuelve a vincular tras la adición.
+            repaint();
+            
+            return comp;
+        }
+        
+        @Override
+        public void add(Component comp, Object constraints) {
+            if (comp instanceof BaseComponent) {
+                // Llamar al método de ayuda
+                prepareComponentForAddition(comp);
+        
+                JScrollPane panelContenedor = crearPanelContenedor(comp);
+                super.add(panelContenedor, constraints);
+                repaint();
+            }
+        }
+        
+        @Override
+        public Component add(Component comp) {
+            return this.add(comp, -1);
+        }
+        
+        @Override
+        public void add(Component comp, Object constraints, int index) {
+            if (comp instanceof BaseComponent) {
+                // Llamar al método de ayuda
+                prepareComponentForAddition(comp);
+                
+                JScrollPane panelContenedor = crearPanelContenedor(comp);
+                super.add(panelContenedor, constraints, index);
+                repaint();
+            }
+        }
+        
+        @Override
+        public Component add(String name, Component comp) {
+            if (comp instanceof BaseComponent) {
+                // Llamar al método de ayuda
+                prepareComponentForAddition(comp);
+                
+                JScrollPane panelContenedor = crearPanelContenedor(comp);
+                super.add(name, panelContenedor);
+                repaint();
+            }
+            return comp;
+        }
+        //</editor-fold>
+    }
+}
