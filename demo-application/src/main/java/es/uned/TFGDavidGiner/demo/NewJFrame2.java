@@ -28,17 +28,50 @@ public class NewJFrame2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tabContainer1 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        componenteC1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteC();
+        componenteA1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
+        componenteC2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteC();
+        componenteA2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
+        componenteB1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteB();
+        componenteD1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteD();
+        componenteAInt1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteAInt();
+        componenteBInt1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteBInt();
+        componenteCInt1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteCInt();
+        componenteBInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteBInt();
+        componenteCInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteCInt();
+        componenteAInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteAInt();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tabContainer1.getContentPane().add(componenteC1);
+        tabContainer1.getContentPane().add(componenteA1);
+        tabContainer1.getContentPane().add(componenteC2);
+        tabContainer1.getContentPane().add(componenteA2);
+        tabContainer1.getContentPane().add(componenteB1);
+        tabContainer1.getContentPane().add(componenteD1);
+        tabContainer1.getContentPane().add(componenteAInt1);
+        tabContainer1.getContentPane().add(componenteBInt1);
+        tabContainer1.getContentPane().add(componenteCInt1);
+        tabContainer1.getContentPane().add(componenteBInt2);
+        tabContainer1.getContentPane().add(componenteCInt2);
+        tabContainer1.getContentPane().add(componenteAInt2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
@@ -70,5 +103,18 @@ public class NewJFrame2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteAInt componenteAInt1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteAInt componenteAInt2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteB componenteB1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteBInt componenteBInt1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteBInt componenteBInt2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteC componenteC1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteC componenteC2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteCInt componenteCInt1;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteCInt componenteCInt2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteD componenteD1;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer1;
     // End of variables declaration//GEN-END:variables
 }

@@ -87,6 +87,7 @@ public class ValidarFrame extends javax.swing.JFrame {
 
         botoneraContainer3.getContentPane().add(tabContainer1);
 
+        treeContainer21.setDesignTimeSelectionPath("Raíz, ComponenteC");
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Raíz");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("ComponenteA");
         treeNode1.add(treeNode2);
@@ -138,7 +139,7 @@ public class ValidarFrame extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         treeContainer22.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
         treeContainer22.getContentPane().add(componenteAInt2);
-        componenteAInt2.setBounds(30, 30, 114, 38);
+        componenteAInt2.setBounds(30, 30, 106, 38);
         treeContainer22.getContentPane().add(componenteBInt1);
         componenteBInt1.setBounds(20, 100, 212, 38);
 
@@ -147,7 +148,7 @@ public class ValidarFrame extends javax.swing.JFrame {
         treeContainer21.getContentPane().add(componenteD2);
         componenteD2.setBounds(70, 130, 114, 38);
         treeContainer21.getContentPane().add(componenteAInt1);
-        componenteAInt1.setBounds(130, 100, 114, 38);
+        componenteAInt1.setBounds(130, 100, 106, 38);
         treeContainer21.getContentPane().add(componenteBInt2);
         componenteBInt2.setBounds(100, 90, 212, 38);
         treeContainer21.getContentPane().add(componenteCInt1);

@@ -23,13 +23,51 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="tabContainer1" min="-2" pref="526" max="-2" attributes="0"/>
+              <EmptySpace pref="73" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <Component id="tabContainer1" min="-2" pref="318" max="-2" attributes="0"/>
+              <EmptySpace pref="75" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Container class="es.uned.TFGDavidGiner.components.containers.TabContainer" name="tabContainer1">
+      <SubComponents>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteC" name="componenteC1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteA" name="componenteA1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteC" name="componenteC2">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteA" name="componenteA2">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteB" name="componenteB1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteD" name="componenteD1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteAInt" name="componenteAInt1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteBInt" name="componenteBInt1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteCInt" name="componenteCInt1">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteBInt" name="componenteBInt2">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteCInt" name="componenteCInt2">
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteAInt" name="componenteAInt2">
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
 </Form>
