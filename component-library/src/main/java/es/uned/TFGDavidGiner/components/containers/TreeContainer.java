@@ -245,22 +245,6 @@ public class TreeContainer extends BaseContainer {
      * @param evt El evento de selección del árbol.
      */
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {
-//        Object lastNode = jTree1.getLastSelectedPathComponent();
-//        if (!(lastNode instanceof TreeNode)) return;
-//
-//        // Busca el componente asociado al nodo seleccionado.
-//        Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
-//
-//        // Itera sobre los JScrollPane hijos y hace visible solo el que contiene al componente correcto.
-//        for (Component scrollPane : jLayeredPane1.getComponents()) {
-//            if (scrollPane instanceof JScrollPane) {
-//                Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
-//                scrollPane.setVisible(innerComponent == componentToShow);
-//            }
-//        }
-//        jLayeredPane1.revalidate();
-//        jLayeredPane1.repaint();
-        // El listener ahora simplemente llama al nuevo método.
         updateVisibleComponent();
     }
     
