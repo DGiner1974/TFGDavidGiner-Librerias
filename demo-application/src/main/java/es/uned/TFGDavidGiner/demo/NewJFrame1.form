@@ -24,28 +24,28 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-              <Component id="treeContainer2" min="-2" pref="435" max="-2" attributes="0"/>
-              <EmptySpace pref="318" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <Component id="treeContainer1" min="-2" pref="718" max="-2" attributes="0"/>
+              <EmptySpace pref="100" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="131" max="32767" attributes="0"/>
-              <Component id="treeContainer2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="treeContainer1" min="-2" pref="491" max="-2" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="es.uned.TFGDavidGiner.components.containers.TreeContainer" name="treeContainer2">
+    <Container class="es.uned.TFGDavidGiner.components.containers.TreeContainer" name="treeContainer1">
       <Properties>
-        <Property name="designTimeSelectionPath" type="java.lang.String" value="Ra&#xed;z, C1"/>
+        <Property name="designTimeSelectionPath" type="java.lang.String" value="JTree, violet"/>
         <Property name="estructuraArbol" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-          <TreeModel code="Ra&#xed;z&#xa; C1"/>
+          <TreeModel code="JTree&#xa; colors&#xa; blue&#xa; violet"/>
         </Property>
       </Properties>
 
@@ -56,7 +56,21 @@
         <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteA" name="componenteA1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="110" width="-1" height="-1"/>
+              <AbsoluteConstraints x="100" y="280" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteB" name="componenteB1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="30" y="320" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="es.uned.TFGDavidGiner.components.leafs.ComponenteD" name="componenteD1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="50" y="360" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

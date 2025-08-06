@@ -384,6 +384,56 @@ public class TreeContainer extends BaseContainer {
     }
     //</editor-fold>
     
+              /**
+    * Actualiza qué componente es visible en el JLayeredPane basándose
+    * en el nodo actualmente seleccionado en el JTree.
+    */
+    private void updateVisibleComponent() {
+       Object lastNode = jTree1.getLastSelectedPathComponent();
+       if (!(lastNode instanceof TreeNode)) {
+           // Si no hay nada seleccionado, ocultamos todos los componentes
+           for (Component scrollPane : jLayeredPane1.getComponents()) {
+               scrollPane.setVisible(false);
+           }
+           return;
+       }
+
+       Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
+
+       for (Component scrollPane : jLayeredPane1.getComponents()) {
+           if (scrollPane instanceof JScrollPane) {
+               Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
+               scrollPane.setVisible(innerComponent == componentToShow);
+           }
+       }
+       jLayeredPane1.revalidate();
+       jLayeredPane1.repaint();
+    }
+
+    /**
+    * Construye y devuelve la ruta (TreePath) desde el nodo raíz hasta un nodo específico.
+    * @param node El nodo para el cual se debe encontrar la ruta.
+    * @return un objeto TreePath que representa la ruta completa al nodo.
+    */
+    private TreePath getPathForNode(TreeNode node) {
+       if (node == null) {
+           return null;
+       }
+       // DefaultMutableTreeNode tiene un método conveniente para obtener la ruta.
+       if (node instanceof DefaultMutableTreeNode) {
+           return new TreePath(((DefaultMutableTreeNode) node).getPath());
+       }
+       // Fallback por si se usan otros tipos de nodos (más genérico).
+       List<TreeNode> path = new ArrayList<>();
+       path.add(node);
+       TreeNode parent = node.getParent();
+       while (parent != null) {
+           path.add(0, parent);
+           parent = parent.getParent();
+       }
+       return new TreePath(path.toArray(new TreeNode[0]));
+    }
+    
     /**
      * Subclase personalizada de JLayeredPane que envuelve automáticamente los
      * componentes hijos en JScrollPanes y valida su tipo.
@@ -434,6 +484,24 @@ public class TreeContainer extends BaseContainer {
             super.add(panelContenedor, index);
             performAutomaticLinking(); // Vuelve a vincular tras la adición.
             
+            // Buscamos el nodo que corresponde al componente que acabamos de añadir.
+            TreeNode nodeToSelect = null;
+            for (Map.Entry<TreeNode, Component> entry : nodeComponentMap.entrySet()) {
+                if (entry.getValue() == comp) {
+                    nodeToSelect = entry.getKey();
+                    break;
+                }
+            }
+
+            // Si encontramos el nodo, construimos su ruta y la seleccionamos en el árbol.
+            if (nodeToSelect != null) {
+                TreePath pathToSelect = getPathForNode(nodeToSelect);
+                if (pathToSelect != null) {
+                    jTree1.setSelectionPath(pathToSelect);
+                    jTree1.scrollPathToVisible(pathToSelect); // Asegura que el nodo sea visible
+                }
+            }
+                
             // Forzamos el refresco de la vista para el nodo actualmente seleccionado.
             updateVisibleComponent();
             
@@ -486,30 +554,5 @@ public class TreeContainer extends BaseContainer {
         //</editor-fold>
     
     }
-    
-            /**
-        * Actualiza qué componente es visible en el JLayeredPane basándose
-        * en el nodo actualmente seleccionado en el JTree.
-        */
-       private void updateVisibleComponent() {
-           Object lastNode = jTree1.getLastSelectedPathComponent();
-           if (!(lastNode instanceof TreeNode)) {
-               // Si no hay nada seleccionado, ocultamos todos los componentes
-               for (Component scrollPane : jLayeredPane1.getComponents()) {
-                   scrollPane.setVisible(false);
-               }
-               return;
-           }
-
-           Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
-
-           for (Component scrollPane : jLayeredPane1.getComponents()) {
-               if (scrollPane instanceof JScrollPane) {
-                   Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
-                   scrollPane.setVisible(innerComponent == componentToShow);
-               }
-           }
-           jLayeredPane1.revalidate();
-           jLayeredPane1.repaint();
-       }
+   
 }
