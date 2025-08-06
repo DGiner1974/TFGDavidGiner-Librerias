@@ -221,7 +221,16 @@ public class SimpleContainer extends BaseContainer {
          */
         @Override
         public Component add(Component component, int index) {
-            // 1. Valida que solo se puedan añadir componentes del framework.
+            
+            // 1. Un ButtonPanelContainer nunca puede ser un componente hijo.
+            if (component instanceof ButtonPanelContainer) {
+                JOptionPane.showMessageDialog(this,
+                        "Un ButtonPanelContainer no puede ser añadido dentro de otro contenedor.",
+                        "Operación no permitida", JOptionPane.WARNING_MESSAGE);
+                return component; // Se devuelve sin añadirlo.
+            }
+
+            // 2. Valida que solo se puedan añadir componentes del framework.
             if (!(component instanceof BaseComponent)) {
                 if (!SimpleContainer.this.isDuringInitializationOrLoading) {
                     JOptionPane.showMessageDialog(this,
@@ -231,7 +240,7 @@ public class SimpleContainer extends BaseContainer {
                 return component; // Se devuelve para que el diseñador lo maneje.
             }
 
-            // 2. Evita añadir el mismo componente dos veces.
+            // 3. Evita añadir el mismo componente dos veces.
             if (component == splitPane.getLeftComponent() || component == splitPane.getRightComponent()) {
                 return component;
             }
@@ -241,7 +250,7 @@ public class SimpleContainer extends BaseContainer {
                 ((BaseContainer) component).setShowBorder(false);
             }
             
-            // 3. Añade el componente al primer hueco libre en el JSplitPane.
+            // 4. Añade el componente al primer hueco libre en el JSplitPane.
             if (splitPane.getLeftComponent() == null) {
                 splitPane.setLeftComponent(component);
             } else if (splitPane.getRightComponent() == null) {
@@ -253,7 +262,7 @@ public class SimpleContainer extends BaseContainer {
                         "Contenedor lleno", JOptionPane.WARNING_MESSAGE);
             }
 
-            // 4. Actualiza la UI si es necesario.
+            // 5. Actualiza la UI si es necesario.
             if (!SimpleContainer.this.isDuringInitializationOrLoading) {
                 SimpleContainer.this.revalidate();
                 SimpleContainer.this.repaint();

@@ -539,7 +539,18 @@ public class TreeContainer extends BaseContainer {
          */
         @Override
         public Component add(Component comp, int index) {
-            // 1. Lógica de validación (sin cambios)
+            // 1. Lógica de validación 
+            // Un ButtonPanelContainer nunca puede ser un componente hijo.
+            if (comp instanceof ButtonPanelContainer) {
+                if (!TreeContainer.this.isDuringInitializationOrLoading) {
+                    JOptionPane.showMessageDialog(this,
+                            "Un ButtonPanelContainer no puede ser añadido dentro de otro contenedor.",
+                            "Operación no permitida", JOptionPane.WARNING_MESSAGE);
+                }
+                return comp; // Se devuelve sin añadirlo.
+            }
+            
+            // Los componentes hijo sólo pueden ser BaseComponent.
             if (!(comp instanceof BaseComponent)) {
                 if (!TreeContainer.this.isDuringInitializationOrLoading) {
                     JOptionPane.showMessageDialog(this,

@@ -257,7 +257,18 @@ public void actionPerformed(ActionEvent evt) {
          */
         @Override
         public Component add(Component component, int index) {
-            // 1. Validar que el componente sea del tipo correcto.
+            
+            // 1. Un ButtonPanelContainer nunca puede ser un componente hijo.
+            if (component instanceof ButtonPanelContainer) {
+                if (!ButtonPanelContainer.this.isDuringInitializationOrLoading) {
+                    JOptionPane.showMessageDialog(this,
+                            "Un ButtonPanelContainer no puede ser añadido dentro de otro contenedor.",
+                            "Operación no permitida", JOptionPane.WARNING_MESSAGE);
+                }
+                return component; // Se devuelve sin añadirlo.
+            }
+            
+            // 2. Validar que el componente sea del tipo correcto.
             if (!(component instanceof BaseComponent)) {
                 if (!ButtonPanelContainer.this.isDuringInitializationOrLoading) {
                     String errorMessage = "Sólo se pueden añadir componentes de tipo BaseComponent a este contenedor.";
@@ -266,12 +277,12 @@ public void actionPerformed(ActionEvent evt) {
                 return component; // Se devuelve para que el IDE lo maneje.
             }
 
-            // 2. Evitar añadir el mismo componente dos veces.
+            // 3. Evitar añadir el mismo componente dos veces.
             if (component == splitPane.getLeftComponent()) {
                 return component;
             }
 
-            // 3. Añadir el componente al JSplitPane si no hay otro ya.
+            // 4. Añadir el componente al JSplitPane si no hay otro ya.
             if (splitPane.getLeftComponent() == leftPlaceholder) {
                 splitPane.setLeftComponent(component);
             } else {
@@ -280,7 +291,7 @@ public void actionPerformed(ActionEvent evt) {
                 JOptionPane.showMessageDialog(this, errorMessage, "Contenedor lleno", JOptionPane.WARNING_MESSAGE);
             }
 
-            // 4. Actualizar la UI si es necesario.
+            // 5. Actualizar la UI si es necesario.
             if (!ButtonPanelContainer.this.isDuringInitializationOrLoading) {
                 ButtonPanelContainer.this.revalidate();
                 ButtonPanelContainer.this.repaint();

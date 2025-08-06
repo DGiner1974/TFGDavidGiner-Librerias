@@ -251,6 +251,17 @@ public class TabContainer extends BaseContainer {
          */
         @Override
         public Component add(Component component, int index) {
+            
+            // Un ButtonPanelContainer nunca puede ser un componente hijo.
+            if (component instanceof ButtonPanelContainer) {
+                if (!TabContainer.this.isDuringInitializationOrLoading) {
+                    JOptionPane.showMessageDialog(this,
+                            "Un ButtonPanelContainer no puede ser añadido dentro de otro contenedor.",
+                            "Operación no permitida", JOptionPane.WARNING_MESSAGE);
+                }
+                return component; // Se devuelve sin añadirlo.
+            }
+            
             // Valida que solo se puedan añadir componentes de nuestro framework.
             if (!(component instanceof BaseComponent)) {
                 // Muestra un mensaje de error solo si no estamos en fase de carga.
