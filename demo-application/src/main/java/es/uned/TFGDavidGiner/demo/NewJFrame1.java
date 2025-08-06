@@ -35,37 +35,39 @@ public class NewJFrame1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        treeContainer1.setDesignTimeSelectionPath("JTree, violet");
+        treeContainer1.setDesignTimeSelectionPath("JTree, colors, red");
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("blue");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("violet");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("blue");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("violet");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("red");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeContainer1.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
         treeContainer1.getContentPane().add(componenteA1);
-        componenteA1.setBounds(100, 280, 114, 38);
+        componenteA1.setBounds(30, 120, 114, 38);
         treeContainer1.getContentPane().add(componenteB1);
-        componenteB1.setBounds(30, 320, 212, 38);
+        componenteB1.setBounds(30, 180, 212, 38);
         treeContainer1.getContentPane().add(componenteD1);
-        componenteD1.setBounds(50, 360, 114, 38);
+        componenteD1.setBounds(80, 240, 114, 38);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addGap(72, 72, 72)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         pack();

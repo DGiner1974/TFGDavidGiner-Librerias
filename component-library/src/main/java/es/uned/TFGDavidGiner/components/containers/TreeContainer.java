@@ -88,6 +88,12 @@ public class TreeContainer extends BaseContainer {
      * Esta propiedad permite preseleccionar un nodo desde el editor de propiedades del IDE.
      */
     private String designTimeSelectionPath;
+
+    /**
+     * Mantiene una lista ordenada de los componentes hijos según fueron añadidos,
+     * para asegurar un mapeo consistente y predecible con los nodos del árbol.
+     */
+    private final List<Component> componentAdditionOrder = new ArrayList<>();
     //</editor-fold>
 
     /**
@@ -152,9 +158,9 @@ public class TreeContainer extends BaseContainer {
         // 1. Obtiene todos los nodos hoja del árbol en orden.
         List<TreeNode> leafNodes = getAllLeafNodes();
         
-        // 2. Obtiene todos los componentes añadidos por el usuario.
-        List<Component> userComponents = getContainedUserComponents();
-
+        // 2. Obtiene todos los componentes añadidos por el usuario ordenados.
+        List<Component> userComponents = new ArrayList<>(this.componentAdditionOrder);
+        
         // 3. Vincula nodos con componentes en el mapa.
         int linkCount = Math.min(leafNodes.size(), userComponents.size());
         for (int i = 0; i < linkCount; i++) {
@@ -191,15 +197,18 @@ public class TreeContainer extends BaseContainer {
     }
 
     /**
-     * Obtiene los componentes de usuario reales (desenvueltos del JScrollPane)
+     * Obtiene los componentes de usuario (desenvueltos del JScrollPane)
      * contenidos dentro del JLayeredPane.
-     * @return Una {@link List} de los componentes añadidos.
+     * @return Una {@link List} de los componentes {@link es.uned.TFGDavidGiner.core.BaseComponent} añadidos.
      */
     private List<Component> getContainedUserComponents() {
         List<Component> userComponents = new ArrayList<>();
         for (Component wrapper : jLayeredPane1.getComponents()) {
             if (wrapper instanceof JScrollPane) {
-                userComponents.add(((JScrollPane) wrapper).getViewport().getView());
+                Component content = ((JScrollPane) wrapper).getViewport().getView();
+                if (content instanceof BaseComponent) {
+                    userComponents.add((BaseComponent) content);
+                }
             }
         }
         return userComponents;
@@ -435,6 +444,61 @@ public class TreeContainer extends BaseContainer {
     }
     
     /**
+    * Sobrescribe el método de eliminación de componentes para asegurar que la
+    * vinculación entre nodos y componentes se actualice correctamente.
+    * <p>
+    * Cuando un componente es eliminado (por ejemplo, desde el panel Navigator del IDE),
+    * este método se encarga de quitarlo de la vista y de invocar de nuevo el
+    * proceso de vinculación automática. Esto permite que los componentes que pudieran
+    * haber quedado sin un nodo asignado ocupen los huecos libres.
+    *
+    * @param comp El componente a eliminar.
+    */
+   @Override
+   public void remove(Component comp) {
+       // Busca el JScrollPane que envuelve al componente que se quiere eliminar.
+       Component wrapperToRemove = null;
+       for (Component wrapper : jLayeredPane1.getComponents()) {
+           if (wrapper instanceof JScrollPane && ((JScrollPane) wrapper).getViewport().getView() == comp) {
+               wrapperToRemove = wrapper;
+               break;
+           }
+       }
+
+       // Si se encuentra el envoltorio, se elimina del JLayeredPane.
+       if (wrapperToRemove != null) {
+           jLayeredPane1.remove(wrapperToRemove);
+       }
+
+        // Se elimina el componente de nuestra lista de orden
+        componentAdditionOrder.remove(comp);
+       
+       // Se llama al método de la superclase para completar el proceso de eliminación.
+       super.remove(comp);
+
+       // Se fuerza una revinculación y un refresco de la UI.
+       performAutomaticLinking();
+       updateVisibleComponent();
+       revalidate();
+       repaint();
+   }
+
+   /**
+    * Sobrescribe el método de eliminación por índice para que delegue en la
+    * lógica principal de eliminación.
+    *
+    * @param index El índice del componente a eliminar.
+    */
+   @Override
+   public void remove(int index) {
+       // Obtiene el componente en el índice y llama a la versión sobrecargada.
+       if (index >= 0 && index < getComponentCount()) {
+           Component comp = getComponent(index);
+           remove(comp);
+       }
+   }
+    
+    /**
      * Subclase personalizada de JLayeredPane que envuelve automáticamente los
      * componentes hijos en JScrollPanes y valida su tipo.
      */
@@ -463,10 +527,19 @@ public class TreeContainer extends BaseContainer {
             return panelContenedor;
         }
         
-        //<editor-fold defaultstate="collapsed" desc="Sobrescritura de métodos 'add'">
+        //<editor-fold defaultstate="collapsed" desc="Sobrescritura de métodos 'add' y 'remove'">
+        /**
+         * Sobrescribe el método de adición para validar el tipo de componente,
+         * envolverlo en un JScrollPane, registrar su orden de adición y actualizar
+         * la interfaz de usuario.
+         *
+         * @param comp El componente a añadir.
+         * @param index La posición en la que se añadirá.
+         * @return El componente original que se ha añadido.
+         */
         @Override
         public Component add(Component comp, int index) {
-            // Valida que solo se puedan añadir componentes del framework.
+            // 1. Lógica de validación (sin cambios)
             if (!(comp instanceof BaseComponent)) {
                 if (!TreeContainer.this.isDuringInitializationOrLoading) {
                     JOptionPane.showMessageDialog(this,
@@ -475,16 +548,17 @@ public class TreeContainer extends BaseContainer {
                 }
                 return comp;
             }
-            
-            // Llamar al método de ayuda
             prepareComponentForAddition(comp);
-            
-            // Envuelve el componente válido en un JScrollPane y lo añade.
+
+            // 2. Se añade el componente a la UI y a nuestra lista de orden
             JScrollPane panelContenedor = crearPanelContenedor(comp);
             super.add(panelContenedor, index);
-            performAutomaticLinking(); // Vuelve a vincular tras la adición.
-            
-            // Buscamos el nodo que corresponde al componente que acabamos de añadir.
+            componentAdditionOrder.add(comp);
+
+            // 3. Se actualiza el mapa que vincula nodos y componentes
+            performAutomaticLinking();
+
+            // 4. Buscamos el nodo que corresponde al componente que acabamos de añadir.
             TreeNode nodeToSelect = null;
             for (Map.Entry<TreeNode, Component> entry : nodeComponentMap.entrySet()) {
                 if (entry.getValue() == comp) {
@@ -493,20 +567,19 @@ public class TreeContainer extends BaseContainer {
                 }
             }
 
-            // Si encontramos el nodo, construimos su ruta y la seleccionamos en el árbol.
+            // 5. Si encontramos el nodo, construimos su ruta y la seleccionamos en el árbol.
             if (nodeToSelect != null) {
-                TreePath pathToSelect = getPathForNode(nodeToSelect);
+                TreePath pathToSelect = getPathForNode(nodeToSelect); // (Asegúrate de tener este método auxiliar)
                 if (pathToSelect != null) {
                     jTree1.setSelectionPath(pathToSelect);
                     jTree1.scrollPathToVisible(pathToSelect); // Asegura que el nodo sea visible
                 }
             }
-                
-            // Forzamos el refresco de la vista para el nodo actualmente seleccionado.
+
+            // 6. Se llama a updateVisibleComponent, que ahora usará la nueva selección.
             updateVisibleComponent();
-            
             repaint();
-            
+
             return comp;
         }
         
@@ -551,6 +624,19 @@ public class TreeContainer extends BaseContainer {
             }
             return comp;
         }
+        
+        /**
+        * Sobrescribe el método de eliminación para delegar la lógica al
+        * TreeContainer principal, asegurando que se actualice el estado interno.
+        * @param comp El componente a eliminar.
+        */
+       @Override
+       public void remove(Component comp) {
+           // En lugar de manejar la lógica aquí, la delegamos al método remove
+           // del TreeContainer, que ya contiene la lógica correcta para
+           // actualizar la lista de orden y revincular los componentes.
+           TreeContainer.this.remove(comp);
+       }
         //</editor-fold>
     
     }
