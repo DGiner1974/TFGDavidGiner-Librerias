@@ -8,14 +8,14 @@ package es.uned.TFGDavidGiner.demo;
  *
  * @author david
  */
-public class NewJFrame1 extends javax.swing.JFrame {
+public class TabContainersAnidados extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame1.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TabContainersAnidados.class.getName());
 
     /**
-     * Creates new form NewJFrame1
+     * Creates new form TabsAnidados
      */
-    public NewJFrame1() {
+    public TabContainersAnidados() {
         initComponents();
     }
 
@@ -28,34 +28,43 @@ public class NewJFrame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        treeContainer2 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
+        tabContainer1 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        tabContainer2 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        tabContainer3 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        tabContainer4 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        tabContainer5 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        tabContainer6 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
         componenteA1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        treeContainer2.setDesignTimeSelectionPath("Raíz, C1");
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Raíz");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("C1");
-        treeNode1.add(treeNode2);
-        treeContainer2.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        treeContainer2.getContentPane().add(componenteA1);
-        componenteA1.setBounds(20, 110, 114, 38);
+        tabContainer6.getContentPane().add(componenteA1);
+
+        tabContainer5.getContentPane().add(tabContainer6);
+
+        tabContainer4.getContentPane().add(tabContainer5);
+
+        tabContainer3.getContentPane().add(tabContainer4);
+
+        tabContainer2.getContentPane().add(tabContainer3);
+
+        tabContainer1.getContentPane().add(tabContainer2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(treeContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(131, Short.MAX_VALUE)
-                .addComponent(treeContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         pack();
@@ -83,11 +92,16 @@ public class NewJFrame1 extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new NewJFrame1().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TabContainersAnidados().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA1;
-    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer2;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer1;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer2;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer3;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer4;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer5;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer6;
     // End of variables declaration//GEN-END:variables
 }

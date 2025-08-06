@@ -8,14 +8,14 @@ package es.uned.TFGDavidGiner.demo;
  *
  * @author david
  */
-public class NewJFrame1 extends javax.swing.JFrame {
+public class TreeValoresDefecto extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame1.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TreeValoresDefecto.class.getName());
 
     /**
      * Creates new form NewJFrame1
      */
-    public NewJFrame1() {
+    public TreeValoresDefecto() {
         initComponents();
     }
 
@@ -28,34 +28,25 @@ public class NewJFrame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        treeContainer2 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
-        componenteA1 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
+        treeContainer1 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        treeContainer2.setDesignTimeSelectionPath("Raíz, C1");
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Raíz");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("C1");
-        treeNode1.add(treeNode2);
-        treeContainer2.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        treeContainer2.getContentPane().add(componenteA1);
-        componenteA1.setBounds(20, 110, 114, 38);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(treeContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(242, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(131, Short.MAX_VALUE)
-                .addComponent(treeContainer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(treeContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -83,11 +74,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new NewJFrame1().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TreeValoresDefecto().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA1;
-    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer2;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer1;
     // End of variables declaration//GEN-END:variables
 }

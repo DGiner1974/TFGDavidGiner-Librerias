@@ -138,7 +138,7 @@ public class TreeContainerBeanInfo extends SimpleBeanInfo {
                 // Se establece un valor por defecto para 'estructuraArbol' para mejorar la experiencia en el editor del IDE.
                 if ("estructuraArbol".equals(pd.getName())) {
                     // Creamos el modelo de árbol vacío que queremos como valor por defecto
-                    TreeNode rootNode = new DefaultMutableTreeNode("root");
+                    TreeNode rootNode = new DefaultMutableTreeNode("Raíz");
                     TreeModel emptyModel = new javax.swing.tree.DefaultTreeModel(rootNode);
 
                     // Establecemos este objeto como el "valor por defecto" de la propiedad

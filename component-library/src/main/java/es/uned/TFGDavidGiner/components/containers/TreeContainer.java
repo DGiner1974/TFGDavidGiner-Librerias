@@ -106,12 +106,12 @@ public class TreeContainer extends BaseContainer {
             // Establece la posición inicial del divisor para que ambos paneles sean visibles.
             jSplitPane1.setDividerLocation(150);
                                
-            // 1. Crear un modelo de árbol válido pero con un único nodo raíz
-            TreeNode rootNode = new DefaultMutableTreeNode("root");
-            TreeModel emptyModel = new javax.swing.tree.DefaultTreeModel(rootNode);
-            // 2. Asignar este modelo a la propiedad al iniciar el componente
+            // Se crea un nodo raíz sin texto
+            TreeNode emptyNode = new DefaultMutableTreeNode();
+            TreeModel emptyModel = new javax.swing.tree.DefaultTreeModel(emptyNode);
+            //Asignar este modelo a la propiedad al iniciar el componente
             this.setEstructuraArbol(emptyModel);
-            // 3. (Opcional) Ocultar el nodo raíz para que el árbol parezca totalmente vacío
+            //Ocultar el nodo raíz para que el árbol parezca totalmente vacío
             jTree1.setRootVisible(false);
 
         } catch (Exception e) {
@@ -245,21 +245,23 @@ public class TreeContainer extends BaseContainer {
      * @param evt El evento de selección del árbol.
      */
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {
-        Object lastNode = jTree1.getLastSelectedPathComponent();
-        if (!(lastNode instanceof TreeNode)) return;
-
-        // Busca el componente asociado al nodo seleccionado.
-        Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
-
-        // Itera sobre los JScrollPane hijos y hace visible solo el que contiene al componente correcto.
-        for (Component scrollPane : jLayeredPane1.getComponents()) {
-            if (scrollPane instanceof JScrollPane) {
-                Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
-                scrollPane.setVisible(innerComponent == componentToShow);
-            }
-        }
-        jLayeredPane1.revalidate();
-        jLayeredPane1.repaint();
+//        Object lastNode = jTree1.getLastSelectedPathComponent();
+//        if (!(lastNode instanceof TreeNode)) return;
+//
+//        // Busca el componente asociado al nodo seleccionado.
+//        Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
+//
+//        // Itera sobre los JScrollPane hijos y hace visible solo el que contiene al componente correcto.
+//        for (Component scrollPane : jLayeredPane1.getComponents()) {
+//            if (scrollPane instanceof JScrollPane) {
+//                Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
+//                scrollPane.setVisible(innerComponent == componentToShow);
+//            }
+//        }
+//        jLayeredPane1.revalidate();
+//        jLayeredPane1.repaint();
+        // El listener ahora simplemente llama al nuevo método.
+        updateVisibleComponent();
     }
     
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters de Propiedades">
@@ -447,6 +449,10 @@ public class TreeContainer extends BaseContainer {
             JScrollPane panelContenedor = crearPanelContenedor(comp);
             super.add(panelContenedor, index);
             performAutomaticLinking(); // Vuelve a vincular tras la adición.
+            
+            // Forzamos el refresco de la vista para el nodo actualmente seleccionado.
+            updateVisibleComponent();
+            
             repaint();
             
             return comp;
@@ -494,5 +500,32 @@ public class TreeContainer extends BaseContainer {
             return comp;
         }
         //</editor-fold>
+    
     }
+    
+            /**
+        * Actualiza qué componente es visible en el JLayeredPane basándose
+        * en el nodo actualmente seleccionado en el JTree.
+        */
+       private void updateVisibleComponent() {
+           Object lastNode = jTree1.getLastSelectedPathComponent();
+           if (!(lastNode instanceof TreeNode)) {
+               // Si no hay nada seleccionado, ocultamos todos los componentes
+               for (Component scrollPane : jLayeredPane1.getComponents()) {
+                   scrollPane.setVisible(false);
+               }
+               return;
+           }
+
+           Component componentToShow = nodeComponentMap.get((TreeNode) lastNode);
+
+           for (Component scrollPane : jLayeredPane1.getComponents()) {
+               if (scrollPane instanceof JScrollPane) {
+                   Component innerComponent = ((JScrollPane) scrollPane).getViewport().getView();
+                   scrollPane.setVisible(innerComponent == componentToShow);
+               }
+           }
+           jLayeredPane1.revalidate();
+           jLayeredPane1.repaint();
+       }
 }
