@@ -41,6 +41,15 @@ public class NewJFrame2 extends javax.swing.JFrame {
         componenteBInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteBInt();
         componenteCInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteCInt();
         componenteAInt2 = new es.uned.TFGDavidGiner.components.leafs.ComponenteAInt();
+        treeContainer1 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
+        tabContainer3 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        simpleContainer2 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        treeContainer2 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
+        tabContainer2 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
+        simpleContainer1 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        treeContainer3 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
+        treeContainer4 = new es.uned.TFGDavidGiner.components.containers.TreeContainer();
+        componenteA3 = new es.uned.TFGDavidGiner.components.leafs.ComponenteA();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,21 +66,57 @@ public class NewJFrame2 extends javax.swing.JFrame {
         tabContainer1.getContentPane().add(componenteCInt2);
         tabContainer1.getContentPane().add(componenteAInt2);
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("blue");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("violet");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("red");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeContainer1.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        treeContainer1.getContentPane().add(tabContainer3);
+        tabContainer3.setBounds(30, 30, 200, 150);
+        treeContainer1.getContentPane().add(simpleContainer2);
+        simpleContainer2.setBounds(20, 30, 200, 150);
+        treeContainer1.getContentPane().add(treeContainer2);
+        treeContainer2.setBounds(-230, -100, 400, 400);
+
+        tabContainer1.getContentPane().add(treeContainer1);
+        tabContainer1.getContentPane().add(tabContainer2);
+        tabContainer1.getContentPane().add(simpleContainer1);
+        tabContainer1.getContentPane().add(treeContainer3);
+
+        treeContainer4.setDesignTimeSelectionPath("JTree, colors, blue");
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("blue");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeContainer4.setEstructuraArbol(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        treeContainer4.getContentPane().add(componenteA3);
+        componenteA3.setBounds(-70, 0, 114, 34);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(89, 89, 89)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(treeContainer4, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(340, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(tabContainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(treeContainer4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -105,6 +150,7 @@ public class NewJFrame2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA1;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA2;
+    private es.uned.TFGDavidGiner.components.leafs.ComponenteA componenteA3;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteAInt componenteAInt1;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteAInt componenteAInt2;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteB componenteB1;
@@ -115,6 +161,14 @@ public class NewJFrame2 extends javax.swing.JFrame {
     private es.uned.TFGDavidGiner.components.leafs.ComponenteCInt componenteCInt1;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteCInt componenteCInt2;
     private es.uned.TFGDavidGiner.components.leafs.ComponenteD componenteD1;
+    private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer1;
+    private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer2;
     private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer1;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer2;
+    private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer3;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer1;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer2;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer3;
+    private es.uned.TFGDavidGiner.components.containers.TreeContainer treeContainer4;
     // End of variables declaration//GEN-END:variables
 }
