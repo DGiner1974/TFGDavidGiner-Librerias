@@ -106,8 +106,9 @@ public class TreeContainer extends BaseContainer {
         try {
             isDuringInitializationOrLoading = true;
             setLayout(new BorderLayout());
-            setSize(400, 400);
-            setMinimumSize(new Dimension(400, 400));
+            //setSize(400, 400);
+            setPreferredSize(new Dimension(200, 150));
+            //setMinimumSize(new Dimension(400, 400));
             initComponents();
             // Establece la posición inicial del divisor para que ambos paneles sean visibles.
             jSplitPane1.setDividerLocation(150);
