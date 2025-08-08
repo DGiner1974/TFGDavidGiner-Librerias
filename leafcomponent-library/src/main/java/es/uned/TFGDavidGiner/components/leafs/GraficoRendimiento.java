@@ -34,6 +34,7 @@ public class GraficoRendimiento extends LeafComponent {
     // --- Getters y Setters para las propiedades compartidas ---
 
     public int getPesoMaxPressBanca() {
+        //System.out.println("Spinner getPesoMaxPressBanca: " + pesoMaxPressBanca.toString());
         return pesoMaxPressBanca;
     }
 
@@ -96,14 +97,14 @@ public class GraficoRendimiento extends LeafComponent {
 
             int panelWidth = getWidth();
             int panelHeight = getHeight();
-            int barWidth = 50;
             int spacing = 30;
+            int barWidth = (panelWidth-(3*spacing))/2;//50;
             int bottomMargin = 20;
             int topMargin = 30;
 
             // Dibuja la barra para Press de Banca
             g.setColor(new Color(79, 129, 189)); // Azul
-            int pressBancaHeight = (int) ((pesoMaxPressBanca / 200.0) * (panelHeight - bottomMargin - topMargin)); // Se asume un máximo de 200kg
+            int pressBancaHeight = (int) ((Math.max(0,Math.min(pesoMaxPressBanca,200)) / 200.0) * (panelHeight - bottomMargin - topMargin)); // Se asume un máximo de 200kg
             g.fillRect(spacing, panelHeight - pressBancaHeight - bottomMargin, barWidth, pressBancaHeight);
             g.setColor(Color.BLACK);
             g.drawString("Press Banca", spacing, panelHeight - 5);
@@ -111,7 +112,7 @@ public class GraficoRendimiento extends LeafComponent {
 
             // Dibuja la barra para Sentadilla
             g.setColor(new Color(192, 80, 77)); // Rojo
-            int sentadillaHeight = (int) ((pesoMaxSentadilla / 200.0) * (panelHeight - bottomMargin - topMargin));
+            int sentadillaHeight =(int) (( Math.max(0,Math.min(pesoMaxSentadilla,200)) / 200.0) * (panelHeight - bottomMargin - topMargin)); // Se asume un máximo de 200kg
             g.fillRect(spacing + barWidth + spacing, panelHeight - sentadillaHeight - bottomMargin, barWidth, sentadillaHeight);
             g.setColor(Color.BLACK);
             g.drawString("Sentadilla", spacing + barWidth + spacing, panelHeight - 5);
