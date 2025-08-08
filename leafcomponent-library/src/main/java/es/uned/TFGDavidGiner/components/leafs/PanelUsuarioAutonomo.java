@@ -9,21 +9,32 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class PanelDatosUsuario extends LeafComponent {
+/**
+ * Componente hoja que actúa como la "fuente de la verdad" para un objeto Usuario.
+ * Crea y gestiona su propia instancia de Usuario internamente y notifica
+ * a otros componentes de los cambios a través de la propiedad compartida 'usuarioSeleccionado'.
+ */
+public class PanelUsuarioAutonomo extends LeafComponent {
 
+    // --- Componentes Visuales ---
     private JLabel jLabelNombre;
     private JTextField jTextFieldNombre;
     private JLabel jLabelApellido;
     private JTextField jTextFieldApellido;
     private JLabel jLabelNivel;
     private JComboBox<String> jComboBoxNivel;
+
+    /**
+     * Instancia interna y única del Usuario. Este componente es el dueño de este objeto.
+     */
     private Usuario usuarioSeleccionado;
-    
+
     private static final Set<String> sharedProperties = Set.of("usuarioSeleccionado");
 
-    public PanelDatosUsuario() {
+    public PanelUsuarioAutonomo() {
+        // Se crea el objeto Usuario con valores por defecto al construir el componente.
+        this.usuarioSeleccionado = new Usuario("Nuevo", "Usuario", "Principiante", 0, 0);
         initComponents();
-        actualizarUIDesdeUsuario(null);
     }
 
     private void initComponents() {
@@ -34,7 +45,7 @@ public class PanelDatosUsuario extends LeafComponent {
         jLabelNivel = new JLabel("Nivel:");
         jComboBoxNivel = new JComboBox<>(new String[]{"Principiante", "Intermedio", "Avanzado"});
 
-        // Se usa FocusListener para detectar cuando el usuario termina de editar un campo.
+        // Listeners para actualizar el objeto interno cuando el usuario edita la UI.
         FocusAdapter focusListener = new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -45,7 +56,7 @@ public class PanelDatosUsuario extends LeafComponent {
         jTextFieldApellido.addFocusListener(focusListener);
         jComboBoxNivel.addActionListener(e -> actualizarUsuarioDesdeUI());
 
-        // (El código del GroupLayout se mantiene igual que antes)
+        // --- Código de GroupLayout ---
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,57 +91,84 @@ public class PanelDatosUsuario extends LeafComponent {
                     .addComponent(jComboBoxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        // Se inicializa la UI con los valores del objeto interno.
+        actualizarUIDesdeUsuario();
     }
 
-    private void actualizarUIDesdeUsuario(Usuario usuario) {
-        if (usuario != null) {
-            jTextFieldNombre.setText(usuario.getNombre());
-            jTextFieldApellido.setText(usuario.getApellido());
-            jComboBoxNivel.setSelectedItem(usuario.getNivel());
-            jTextFieldNombre.setEnabled(true);
-            jTextFieldApellido.setEnabled(true);
-            jComboBoxNivel.setEnabled(true);
-        } else {
-            jTextFieldNombre.setText("");
-            jTextFieldApellido.setText("");
-            jComboBoxNivel.setSelectedIndex(0);
-            jTextFieldNombre.setEnabled(false);
-            jTextFieldApellido.setEnabled(false);
-            jComboBoxNivel.setEnabled(false);
-        }
+    /**
+     * Actualiza los componentes visuales con los datos del objeto Usuario interno.
+     */
+    private void actualizarUIDesdeUsuario() {
+        jTextFieldNombre.setText(usuarioSeleccionado.getNombre());
+        jTextFieldApellido.setText(usuarioSeleccionado.getApellido());
+        jComboBoxNivel.setSelectedItem(usuarioSeleccionado.getNivel());
     }
 
+    /**
+     * Actualiza el objeto Usuario interno y notifica a los demás componentes.
+     */
     private void actualizarUsuarioDesdeUI() {
-        if (usuarioSeleccionado != null) {
-            usuarioSeleccionado.setNombre(jTextFieldNombre.getText());
-            usuarioSeleccionado.setApellido(jTextFieldApellido.getText());
-            usuarioSeleccionado.setNivel((String) jComboBoxNivel.getSelectedItem());
-            System.out.println("Invocamos actualizarUsuarioDesdeUI");
-            // Notificamos que el estado del objeto ha cambiado.
-            // Pasamos el mismo objeto para indicar que es una modificación, no una nueva selección.
-            firePropertyChange("usuarioSeleccionado", null, this.usuarioSeleccionado);
-        }
+        System.out.println(usuarioSeleccionado.getNombre() + " - " + jTextFieldNombre.getText());
+        usuarioSeleccionado.setNombre(jTextFieldNombre.getText());
+        usuarioSeleccionado.setApellido(jTextFieldApellido.getText());
+        usuarioSeleccionado.setNivel((String) jComboBoxNivel.getSelectedItem());
+        System.out.println("después: " + usuarioSeleccionado.getNombre() + " - " + jTextFieldNombre.getText());
+        
+        // Notifica a los demás componentes que el estado de 'usuarioSeleccionado' ha cambiado.
+        firePropertyChange("usuarioSeleccionado", null, this.usuarioSeleccionado);
     }
 
+    /**
+     * Devuelve la instancia del usuario que gestiona este componente.
+     * El framework lo usa para la notificación inicial.
+     * @return El objeto Usuario de este componente.
+     */
     public Usuario getUsuarioSeleccionado() {
-        return usuarioSeleccionado;
+        return this.usuarioSeleccionado;
     }
 
+    /**
+     * Este método es llamado por el framework, pero como este componente es el
+     * "maestro", no debe reaccionar a los cambios que él mismo origina.
+     * @param nuevoUsuario El objeto usuario notificado.
+     */
     public void setUsuarioSeleccionado(Usuario nuevoUsuario) {
-        // La lógica para prevenir bucles está aquí: solo se actualiza la UI, no se vuelve a notificar.
-        //Lo cambiamos porque al comparar las clases la dirección de memoria es la misma
-        //if (this.usuarioSeleccionado == nuevoUsuario) return;
+        System.out.println("PanelUsuarioAutonomo usuarioSeleccionado: " +  this.usuarioSeleccionado.toString() + " - " + "nuevoUsuario: " + nuevoUsuario.toString());
+        System.out.println("this.usuarioSeleccionado: " + this.usuarioSeleccionado + " - " + "nuevoUsuario: " + nuevoUsuario);
+         //if (this.usuarioSeleccionado.toString() == nuevoUsuario.toString()) return;
+         //if (this.usuarioSeleccionado.toString().equals(nuevoUsuario.toString())) return;
+         System.out.println("YO SIGO PanelUsuarioAutonomo1 usuarioSeleccionado: " +  this.usuarioSeleccionado.toString() + " - " + "nuevoUsuario: " + nuevoUsuario.toString());
+         //if (this.usuarioSeleccionado.equals(nuevoUsuario)) return;
         
         this.usuarioSeleccionado = nuevoUsuario;
-        actualizarUIDesdeUsuario(this.usuarioSeleccionado);
+        actualizarUIDesdeUsuario();
+    }
+    
+    @Override
+    public Set<String> getSharedProperies() {
+        return sharedProperties;
+    }
+    
+    @Override
+    public boolean configurar() {
+        // Resetea el usuario interno a un estado vacío y actualiza la UI.
+        this.usuarioSeleccionado.setNombre("");
+        this.usuarioSeleccionado.setApellido("");
+        this.usuarioSeleccionado.setNivel("Principiante");
+        actualizarUIDesdeUsuario();
+        // Notifica del reseteo.
+        firePropertyChange("usuarioSeleccionado", null, this.usuarioSeleccionado);
+        return true;
     }
 
     @Override
-    public Set<String> getSharedProperies() { return sharedProperties; }
+    public boolean validar() {
+        return !jTextFieldNombre.getText().trim().isEmpty() && !jTextFieldApellido.getText().trim().isEmpty();
+    }
+
     @Override
-    public boolean configurar() { actualizarUIDesdeUsuario(this.usuarioSeleccionado); return true; }
-    @Override
-    public boolean validar() { return usuarioSeleccionado == null || (!jTextFieldNombre.getText().trim().isEmpty() && !jTextFieldApellido.getText().trim().isEmpty()); }
-    @Override
-    public String getError() { return validar() ? "" : "El nombre y el apellido no pueden estar vacíos."; }
+    public String getError() {
+        return validar() ? "" : "El nombre y el apellido no pueden estar vacíos.";
+    }
 }

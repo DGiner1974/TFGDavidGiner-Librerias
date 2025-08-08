@@ -1,5 +1,6 @@
 package es.uned.TFGDavidGiner.components.leafs;
 
+import es.uned.TFGDavidGiner.components.modelo.Usuario;
 import es.uned.TFGDavidGiner.core.LeafComponent;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,8 +19,9 @@ public class GraficoRendimiento extends LeafComponent {
     // --- Campos para las propiedades compartidas ---
     private int pesoMaxPressBanca = 0;
     private int pesoMaxSentadilla = 0;
+    private Usuario usuarioSeleccionado;
 
-    private static final Set<String> sharedProperties = Set.of("pesoMaxPressBanca", "pesoMaxSentadilla");
+    private static final Set<String> sharedProperties = Set.of("usuarioSeleccionado");
 
     public GraficoRendimiento() {
         initComponents();
@@ -55,6 +57,21 @@ public class GraficoRendimiento extends LeafComponent {
         }
     }
     
+    public Usuario getUsuarioSeleccionado() {
+        return usuarioSeleccionado;
+    }
+
+    public void setUsuarioSeleccionado(Usuario nuevoUsuario) {
+        // La lógica para prevenir bucles está aquí: solo se actualiza la UI, no se vuelve a notificar.
+        //Lo cambiamos porque al comparar las clases la dirección de memoria es la misma
+        //if (this.usuarioSeleccionado == nuevoUsuario) return;
+        System.out.println("GraficoRendimiento setUsuarioSeleccionado");
+        this.usuarioSeleccionado = nuevoUsuario;
+        this.pesoMaxSentadilla = usuarioSeleccionado.getPesoMaxSentadilla();
+        this.pesoMaxPressBanca = usuarioSeleccionado.getPesoMaxPressBanca();
+        repaint(); // Pide al panel que se redibuje con el nuevo dato.
+    }
+    
     @Override
     public Set<String> getSharedProperies() {
         return sharedProperties;
@@ -62,9 +79,8 @@ public class GraficoRendimiento extends LeafComponent {
 
     @Override
     public boolean configurar() {
-        // Al cancelar, se resetean los valores y se limpia el gráfico.
-        setPesoMaxPressBanca(0);
-        setPesoMaxSentadilla(0);
+        setUsuarioSeleccionado(usuarioSeleccionado);
+        repaint();
         return true;
     }
 

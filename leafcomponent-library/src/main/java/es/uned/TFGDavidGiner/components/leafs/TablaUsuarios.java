@@ -17,17 +17,9 @@ public class TablaUsuarios extends LeafComponent {
     private JTable tablaUsuarios;
     private UsuarioTableModel tableModel;
     private List<Usuario> listaDeUsuarios;
-    
-    // Propiedades internas para mantener el estado actual
-    private String nombre = "";
-    private String apellido = "";
-    private String nivel = "";
-    private int pesoMaxPressBanca = 0;
-    private int pesoMaxSentadilla = 0;
-    private int selectedUserIndex = -1;
-
-    // Se añaden las nuevas propiedades al conjunto de propiedades compartidas
-    private static final Set<String> sharedProperties = Set.of("nombre", "apellido", "nivel", "pesoMaxPressBanca", "pesoMaxSentadilla");
+    private Usuario usuarioSeleccionado;
+    //private boolean isUpdatingProgrammatically = false;
+    private static final Set<String> sharedProperties = Set.of("usuarioSeleccionado");
 
     public TablaUsuarios() {
         initComponents();
@@ -39,21 +31,12 @@ public class TablaUsuarios extends LeafComponent {
         tablaUsuarios = new JTable(tableModel);
         tablaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Listener para cuando el USUARIO hace clic en una fila.
         tablaUsuarios.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;
-            
+            if (e.getValueIsAdjusting()) return; //|| isUpdatingProgrammatically) return;
             int viewRow = tablaUsuarios.getSelectedRow();
-            this.selectedUserIndex = (viewRow != -1) ? tablaUsuarios.convertRowIndexToModel(viewRow) : -1;
-            
-            if (this.selectedUserIndex != -1) {
-                Usuario u = listaDeUsuarios.get(this.selectedUserIndex);
-                // Actualiza TODAS las propiedades internas y notifica a los demás.
-                setNombre(u.getNombre());
-                setApellido(u.getApellido());
-                setNivel(u.getNivel());
-                setPesoMaxPressBanca(u.getPesoMaxPressBanca());
-                setPesoMaxSentadilla(u.getPesoMaxSentadilla());
+            if (viewRow != -1) {
+                int modelRow = tablaUsuarios.convertRowIndexToModel(viewRow);
+                setUsuarioSeleccionado(this.listaDeUsuarios.get(modelRow));
             }
         });
 
@@ -67,71 +50,53 @@ public class TablaUsuarios extends LeafComponent {
         this.tablaUsuarios.setModel(this.tableModel);
     }
 
-    // --- Getters y Setters para las propiedades compartidas ---
+    public Usuario getUsuarioSeleccionado() { return this.usuarioSeleccionado; }
+
+    public void setUsuarioSeleccionado(Usuario nuevoUsuario) {
+        Usuario oldValue = this.usuarioSeleccionado;
+        System.out.println("Registro cambiado");
+        int modelRow = listaDeUsuarios.indexOf(nuevoUsuario);
+        System.out.println("Registro cambiado " + modelRow);
+        // Si la notificación es sobre el mismo objeto, es una actualización de datos.
+        if (oldValue != null && oldValue == nuevoUsuario) {
+            //SwingUtilities.invokeLater(() -> tableModel.fireTableDataChanged());
+            SwingUtilities.invokeLater(() -> {
+            // Se le dice al modelo que sus datos han cambiado para que se repinte.
+            tableModel.fireTableDataChanged();
+
+        });
+            return; // Se detiene para no notificar de nuevo.
+        }
+
+        // Si es un objeto diferente, es un cambio de selección.
+        this.usuarioSeleccionado = nuevoUsuario;
+        
+                    // --- INICIO DE LA SOLUCIÓN ---
+            // Después de refrescar, buscamos el índice del usuario modificado.
+            
+
+        
+//        try {
+//            isUpdatingProgrammatically = true;
+//            if (nuevoUsuario == null) {
+//                tablaUsuarios.clearSelection();
+//            } else {
+//                //int modelRow = listaDeUsuarios.indexOf(nuevoUsuario);
+//                if (modelRow != -1) {
+//                    int viewRow = tablaUsuarios.convertRowIndexToView(modelRow);
+//                    if (viewRow != -1) {
+//                        tablaUsuarios.setRowSelectionInterval(viewRow, viewRow);
+//                    }
+//                }
+//            }
+//        } finally {
+//            isUpdatingProgrammatically = false;
+//        }
+        
+        // Notificamos a otros componentes que la SELECCIÓN ha cambiado.
+        firePropertyChange("usuarioSeleccionado", oldValue, nuevoUsuario);
+    }
     
-    public String getNombre() { return nombre; }
-    public void setNombre(String nuevoNombre) {
-        String oldValue = this.nombre;
-        if (nuevoNombre != null && !oldValue.equals(nuevoNombre)) {
-            this.nombre = nuevoNombre;
-            if (selectedUserIndex != -1) {
-                listaDeUsuarios.get(selectedUserIndex).setNombre(nuevoNombre);
-                SwingUtilities.invokeLater(() -> tableModel.fireTableRowsUpdated(selectedUserIndex, selectedUserIndex));
-            }
-            firePropertyChange("nombre", oldValue, nuevoNombre);
-        }
-    }
-
-    public String getApellido() { return apellido; }
-    public void setApellido(String nuevoApellido) {
-        String oldValue = this.apellido;
-        if (nuevoApellido != null && !oldValue.equals(nuevoApellido)) {
-            this.apellido = nuevoApellido;
-            if (selectedUserIndex != -1) {
-                listaDeUsuarios.get(selectedUserIndex).setApellido(nuevoApellido);
-                SwingUtilities.invokeLater(() -> tableModel.fireTableRowsUpdated(selectedUserIndex, selectedUserIndex));
-            }
-            firePropertyChange("apellido", oldValue, nuevoApellido);
-        }
-    }
-
-    public String getNivel() { return nivel; }
-    public void setNivel(String nuevoNivel) {
-        String oldValue = this.nivel;
-        if (nuevoNivel != null && !oldValue.equals(nuevoNivel)) {
-            this.nivel = nuevoNivel;
-            if (selectedUserIndex != -1) {
-                listaDeUsuarios.get(selectedUserIndex).setNivel(nuevoNivel);
-                SwingUtilities.invokeLater(() -> tableModel.fireTableRowsUpdated(selectedUserIndex, selectedUserIndex));
-            }
-            firePropertyChange("nivel", oldValue, nuevoNivel);
-        }
-    }
-    
-    public int getPesoMaxPressBanca() { return pesoMaxPressBanca; }
-    public void setPesoMaxPressBanca(int nuevoPeso) {
-        int oldValue = this.pesoMaxPressBanca;
-        if (oldValue != nuevoPeso) {
-            this.pesoMaxPressBanca = nuevoPeso;
-            if (selectedUserIndex != -1) {
-                listaDeUsuarios.get(selectedUserIndex).setPesoMaxPressBanca(nuevoPeso);
-            }
-            firePropertyChange("pesoMaxPressBanca", oldValue, nuevoPeso);
-        }
-    }
-
-    public int getPesoMaxSentadilla() { return pesoMaxSentadilla; }
-    public void setPesoMaxSentadilla(int nuevoPeso) {
-        int oldValue = this.pesoMaxSentadilla;
-        if (oldValue != nuevoPeso) {
-            this.pesoMaxSentadilla = nuevoPeso;
-            if (selectedUserIndex != -1) {
-                listaDeUsuarios.get(selectedUserIndex).setPesoMaxSentadilla(nuevoPeso);
-            }
-            firePropertyChange("pesoMaxSentadilla", oldValue, nuevoPeso);
-        }
-    }
-
     @Override
     public Set<String> getSharedProperies() { return sharedProperties; }
     @Override
