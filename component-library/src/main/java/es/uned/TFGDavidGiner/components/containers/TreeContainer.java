@@ -137,7 +137,28 @@ public class TreeContainer extends BaseContainer {
     public void addNotify() {
         super.addNotify(); // Es muy importante llamar al método de la clase padre.
         performAutomaticLinking();
-        SwingUtilities.invokeLater(() -> isDuringInitializationOrLoading = false);
+//        SwingUtilities.invokeLater(() -> {
+//            isDuringInitializationOrLoading = false;
+//        });
+        SwingUtilities.invokeLater(() -> {
+            if (designTimeSelectionPath != null && !designTimeSelectionPath.isEmpty()) {
+                TreePath path = findPathFromString(designTimeSelectionPath);
+                if (path != null) {
+                    jTree1.setSelectionPath(path);
+                    jTree1.scrollPathToVisible(path);
+                } else {
+                    jTree1.setSelectionPath(null);
+                }
+            }
+            
+            // Forzamos una actualización del panel visible DESPUÉS de haber
+            // establecido la selección inicial. Esto asegura que si no hay nada
+            // seleccionado (path es null), todos los paneles se oculten.
+            updateVisibleComponent();
+        
+            // Marcamos el final del proceso de inicialización.
+            isDuringInitializationOrLoading = false;
+        });
     }
     
     //<editor-fold defaultstate="collapsed" desc="Lógica de Vinculación Automática (Linking)">
@@ -287,7 +308,7 @@ public class TreeContainer extends BaseContainer {
         this.jTree1.setModel(newTree);
         performAutomaticLinking(); // Vuelve a vincular con el nuevo árbol.
         getSupport().firePropertyChange("estructuraArbol", oldTree, newTree);
-        setDesignTimeSelectionPath(""); // Resetea la selección.
+        //setDesignTimeSelectionPath(""); // Resetea la selección.
     }
 
     /**
@@ -304,11 +325,16 @@ public class TreeContainer extends BaseContainer {
      */
     public void setDesignTimeSelectionPath(String pathString) {
         this.designTimeSelectionPath = pathString;
+        System.out.println("pathString: " + pathString);
         TreePath path = findPathFromString(pathString);
         if (path != null) {
+            System.out.println("path: " + path.toString());
             jTree1.setSelectionPath(path);
             jTree1.scrollPathToVisible(path);
-        }
+         } else {
+            jTree1.clearSelection();
+         }
+            
     }
     
     @Override
@@ -326,25 +352,32 @@ public class TreeContainer extends BaseContainer {
      * @return El {@link TreePath} correspondiente, o {@code null} si no se encuentra.
      */
     private TreePath findPathFromString(String pathString) {
+        System.out.println("P1");
         if (pathString == null || pathString.isEmpty() || !(jTree1.getModel().getRoot() instanceof DefaultMutableTreeNode)) {
+            System.out.println("P2");
             return null;
         }
+        System.out.println("P3");
         try {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) jTree1.getModel().getRoot();
             String[] pathElements = pathString.split(", ");
-
+            System.out.println("P4");
             if (!currentNode.getUserObject().toString().equals(pathElements[0])) return null;
-
+            System.out.println("P5");
             TreePath treePath = new TreePath(currentNode);
             for (int i = 1; i < pathElements.length; i++) {
                 DefaultMutableTreeNode nextNode = findChild(currentNode, pathElements[i]);
+                System.out.println("P6");
                 if (nextNode != null) {
                     currentNode = nextNode;
                     treePath = treePath.pathByAddingChild(currentNode);
+                    System.out.println("P7");
                 } else {
+                    System.out.println("P8");
                     return null; // No se encontró un elemento de la ruta.
                 }
             }
+            System.out.println("P9");
             return treePath;
         } catch (Exception e) {
             return null; // Retorna null en caso de cualquier error.
