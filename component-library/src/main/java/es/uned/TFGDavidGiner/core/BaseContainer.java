@@ -85,15 +85,17 @@ public abstract class BaseContainer extends BaseComponent {
     private void AddListener(Component originComp, Component destinyComp) {
         IShareableProperties origin = (IShareableProperties) originComp;
         IShareableProperties destiny = (IShareableProperties) destinyComp;
+        System.out.println("origin: " + originComp.getClass().getName() + origin.getSharedProperies());
+        System.out.println("destiny: " + destinyComp.getClass().getName() + destiny.getSharedProperies());
         PropertyChangeListener synchronizer = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // Obtener el nombre de la propiedad que ha cambiado.
                 String propertyName = evt.getPropertyName();
-
+                System.out.println("propertyName: " + evt.getPropertyName());
                 // Identificar las propiedades comunes y compartidas entre los dos componentes.
                 Set<String> setpropcomunes = origin.propertiesInCommon(destiny.getSharedProperies());
-
+                System.out.println("Propiedades comunes: " + setpropcomunes);
                 // Si la propiedad que cambió está en el conjunto de propiedades comunes...
                 if (setpropcomunes.contains(propertyName)) {
                     Map<String, Class<?>> map1 = (origin).getPropertiesType(setpropcomunes);
@@ -103,8 +105,10 @@ public abstract class BaseContainer extends BaseComponent {
                     // ...y si los tipos de la propiedad en ambos componentes son compatibles...
                     if (destinyprop.getName().equals(originprop.getName())) {
                         try {
+                            System.out.println(originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
                             // Usar reflexión para obtener el valor actualizado del componente de origen.
                             String nombreGetter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+                            System.out.println(nombreGetter + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
                             Method getter = origin.getClass().getMethod(nombreGetter);
                             Object getterSource = getter.invoke(origin);
 
@@ -112,13 +116,16 @@ public abstract class BaseContainer extends BaseComponent {
                             Method getterT = destiny.getClass().getMethod(nombreGetter);
                             Object getterTarget = getterT.invoke(destiny);
 
+                            System.out.println("getterTarget: " + (getterTarget!=null?getterTarget.toString():"null") + " - " + "getterSource: " + (getterSource!=null?getterSource.toString():"null"));
                             // Actualizar el destino solo si el valor es diferente, para evitar ciclos infinitos.
-                            if (getterTarget != getterSource) {
+                            
+                            //if (getterTarget != getterSource) {
                                 // Construir y invocar el método setter en el componente de destino.
                                 String setterName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+                                System.out.println(setterName + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
                                 Method setter = destiny.getClass().getMethod(setterName, destinyprop);
                                 setter.invoke(destiny, getterSource);
-                            }
+                            //}
                         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | IllegalArgumentException ex) {
                             // Registrar cualquier excepción ocurrida durante el proceso de reflexión.
                             Logger.getLogger(BaseContainer.class.getName()).log(Level.SEVERE, "Error al sincronizar propiedad '" + propertyName + "'", ex);
