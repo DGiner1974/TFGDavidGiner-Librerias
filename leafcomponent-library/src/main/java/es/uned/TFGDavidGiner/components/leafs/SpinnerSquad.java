@@ -23,19 +23,19 @@ public class SpinnerSquad extends LeafComponent {
 
     //<editor-fold defaultstate="collapsed" desc="Declaración de campos y constantes">
     /**
-     * Color de fondo por defecto del componente cuando su estado es válido.
+     * Almacena el color de fondo por defecto del componente para poder restaurarlo.
      */
-    private static final java.awt.Color COLORINICIO = new java.awt.Color(242, 242, 242);
+    private final Color defaultBackgroundColor= this.getBackground();
+    
+    /**
+     * Define el color que se usará para resaltar un error de validación.
+     */
+    private static final Color ERROR_COLOR = new Color(255, 51, 51); 
 
     /**
      * Almacena el valor numérico actual del componente.
      */
     private int pesoMaxSentadilla = 0;
-
-    /**
-     * Define el nombre de la propiedad principal que este componente representa.
-     */
-    private String propertyName = "Dato";
 
     /**
      * Almacena el mensaje de la última validación fallida.
@@ -58,11 +58,6 @@ public class SpinnerSquad extends LeafComponent {
      */
     private static final Set<String> sharedProperties = Set.of("pesoMaxSentadilla");
     
-    /**
-     * Campo para la propiedad 'background', expuesto para mecanismos de data binding.
-     * Almacena el color de fondo actual del componente.
-     */
-    private Color background;
     //</editor-fold>
 
     /**
@@ -89,11 +84,6 @@ public class SpinnerSquad extends LeafComponent {
         jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner1StateChanged(evt);
-            }
-        });
-        jSpinner1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jSpinner1PropertyChange(evt);
             }
         });
 
@@ -123,16 +113,6 @@ public class SpinnerSquad extends LeafComponent {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-    * Manejador de eventos para cuando el valor de una propiedad del JSpinner cambia.
-    * <p>
-    *
-    * @param evt El evento de cambio de estado.
-    */
-    private void jSpinner1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSpinner1PropertyChange
-   
-    }//GEN-LAST:event_jSpinner1PropertyChange
 
     /**
      * Manejador de eventos para cuando el valor del JSpinner cambia.
@@ -193,7 +173,7 @@ public class SpinnerSquad extends LeafComponent {
     public boolean configurar() {
         try {
             setPesoMaxSentadilla(0);
-            setBackground(COLORINICIO);
+            setBackground(defaultBackgroundColor);
             error = "";
             return true;
         } catch (Exception e) {
@@ -213,11 +193,11 @@ public class SpinnerSquad extends LeafComponent {
     @Override
     public boolean validar() {
         if (pesoMaxSentadilla > maxValor || pesoMaxSentadilla < minValor) {
-            this.setBackground(Color.red);
-            error = this.getClass().getSimpleName() + ": El valor debe estar entre " + minValor + " y " + maxValor + ".";
+            this.setBackground(ERROR_COLOR);
+            error = "Sentadilla: El valor debe estar entre " + minValor + " y " + maxValor + ".";
             return false;
         } else {
-            setBackground(COLORINICIO);
+            setBackground(defaultBackgroundColor);
             error = "";
         }
         return true;

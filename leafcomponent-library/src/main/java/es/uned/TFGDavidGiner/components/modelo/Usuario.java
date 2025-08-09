@@ -66,4 +66,19 @@ public class Usuario {
     public String toString() {
         return nombre + " " + apellido;
     }
+    
+    /**
+     * Crea y devuelve una copia de este objeto. Se declara público
+     * para que pueda ser llamado desde otras clases.
+     * @return un clon del objeto Usuario.
+     */
+    @Override
+    public Usuario clone() { // Se cambia a public y el tipo de retorno es Usuario
+        try {
+            return (Usuario) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Esto no debería ocurrir, ya que implementamos Cloneable
+            return new Usuario(this.nombre, this.apellido, this.nivel, this.pesoMaxPressBanca, this.pesoMaxSentadilla);
+        }
+    }
 }

@@ -9,17 +9,19 @@ import java.awt.Color;
 import java.util.Set;
 
 /**
- * Componente de hoja que encapsula un {@link javax.swing.JSpinner} para gestionar un valor de tipo {@link Integer}.
+ * Componente de hoja que encapsula un {@link javax.swing.JSlider} para gestionar
+ * un valor de tipo {@link Integer} de forma segura.
  * <p>
- * Esta clase extiende {@link LeafComponent} con un tipo de dato genérico {@code Integer},
- * lo que simplifica la gestión y validación de datos numéricos. Implementa la interfaz
- * {@link es.uned.TFGDavidGiner.core.interfaces.IValidation} para asegurar que el valor se mantenga dentro de un rango predefinido (0-100).
+ * Este componente extiende {@link LeafComponent} con el tipo genérico {@code Integer},
+ * lo que garantiza la seguridad de tipos para el dato gestionado. Permite al usuario
+ * seleccionar un valor numérico y lo valida para que esté en el rango de 0 a 100,
+ * proporcionando retroalimentación visual en caso de error.
  *
  * @author david
  * @version 1.0
  * @since 12-07-2025
  */
-public class SpinnerPress extends LeafComponent {
+public class SliderSquad extends LeafComponent {
 
     //<editor-fold defaultstate="collapsed" desc="Declaración de campos y constantes">
     /**
@@ -35,7 +37,7 @@ public class SpinnerPress extends LeafComponent {
     /**
      * Almacena el valor numérico actual del componente.
      */
-    private int pesoMaxPressBanca = 0;
+    private int pesoMaxSentadilla = 0;
 
     /**
      * Almacena el mensaje de la última validación fallida.
@@ -56,17 +58,24 @@ public class SpinnerPress extends LeafComponent {
      * Define el conjunto de propiedades que pueden ser compartidas o enlazadas
      * con otros componentes dentro del framework.
      */
-    private static final Set<String> sharedProperties = Set.of("pesoMaxPressBanca");
+    private static final Set<String> sharedProperties = Set.of("pesoMaxSentadilla");
     //</editor-fold>
 
     /**
      * Constructor por defecto.
      * <p>
-     * Inicializa los componentes visuales de la interfaz de usuario.
+     * Inicializa los componentes visuales y establece el valor inicial de la
+     * propiedad 'data' basándose en el valor por defecto del JSlider.
      */
-    public SpinnerPress() {
+    public SliderSquad() {
         initComponents();
+        //Asignamos los límites del slider
+        this.jSlider1.setMinimum(minValor);
+        this.jSlider1.setMaximum(maxValor);
+        // Sincroniza el dato interno con el valor inicial del JSlider.
+        this.pesoMaxSentadilla = this.jSlider1.getValue();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,18 +86,17 @@ public class SpinnerPress extends LeafComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSpinner1 = new javax.swing.JSpinner();
+        jSlider1 = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(189, 34));
-
-        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        jSlider1.setValue(0);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner1StateChanged(evt);
+                jSlider1StateChanged(evt);
             }
         });
 
-        jLabel1.setText("Press (Kg):");
+        jLabel1.setText("Squad (Kg):");
         jLabel1.setMaximumSize(new java.awt.Dimension(75, 16));
         jLabel1.setMinimumSize(new java.awt.Dimension(75, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(75, 16));
@@ -97,70 +105,72 @@ public class SpinnerPress extends LeafComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSlider1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel1.getAccessibleContext().setAccessibleName("Squad (Kg):");
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Manejador de eventos para cuando el valor del JSpinner cambia.
-     * <p>
-     * Sincroniza el valor del spinner con la propiedad 'data' del componente.
-     *
-     * @param evt El evento de cambio de estado.
-     */
-    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+    * Manejador de eventos para cuando el valor del JSlider cambia.
+    * <p>
+    * Sincroniza el valor del slider con la propiedad 'data' del componente.
+    *
+    * @param evt El evento de cambio de estado.
+    */
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        setPesoMaxSentadilla(jSlider1.getValue());     
+    }//GEN-LAST:event_jSlider1StateChanged
 
-        // Actualiza el dato interno del componente con el nuevo valor del spinner.
-        setPesoMaxPressBanca((Integer) jSpinner1.getValue());
-
-    }//GEN-LAST:event_jSpinner1StateChanged
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JSlider jSlider1;
+    // End of variables declaration//GEN-END:variables
 
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters de Propiedades">
     /**
      * Obtiene el valor de la propiedad principal ('data') del componente.
      * @return El valor actual como un {@code Integer}.
      */
-    public int getPesoMaxPressBanca() {
+    public int getPesoMaxSentadilla() {
        // System.out.println("Spinner getPesoMaxPressBanca: " + pesoMaxPressBanca.toString());
-        return pesoMaxPressBanca;
+        return pesoMaxSentadilla;
     }
 
     /**
      * Establece el valor de la propiedad principal ('data') del componente.
      * <p>
-     * Actualiza el estado interno, sincroniza la vista (JSpinner) y notifica
-     * a los listeners de que la propiedad 'data' ha cambiado mediante un
-     * {@code PropertyChangeEvent}.
+     * Actualiza el estado interno, sincroniza la vista (JSlider) y notifica
+     * a los listeners de que la propiedad 'data' ha cambiado.
      *
      * @param dato El nuevo valor de tipo {@code Integer} para el componente.
      */
-    public void setPesoMaxPressBanca(int dato) {
-        int oldValue = this.pesoMaxPressBanca;
-        // Se comprueba si el valor realmente ha cambiado para evitar bucles de actualización.
+    public void setPesoMaxSentadilla(int dato) {
+        int oldValue = this.pesoMaxSentadilla;
         if (oldValue!=dato) {
-            //System.out.println("Spinner setPesoMaxPressBanca: " + dato.toString());
-            this.pesoMaxPressBanca = dato;
+            this.pesoMaxSentadilla = dato;
             // Actualiza la UI para que refleje el nuevo valor.
-            jSpinner1.setValue(dato);
+            jSlider1.setValue(dato);
             // Notifica a los listeners del cambio en la propiedad "data".
-            firePropertyChange("pesoMaxPressBanca", oldValue, dato);
+            firePropertyChange("pesoMaxSentadilla", oldValue, dato);
         }
     }
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Implementación de la Interfaz Validation">
@@ -173,7 +183,7 @@ public class SpinnerPress extends LeafComponent {
     @Override
     public boolean configurar() {
         try {
-            setPesoMaxPressBanca(0);
+            setPesoMaxSentadilla(0);
             setBackground(defaultBackgroundColor);
             error = "";
             return true;
@@ -184,24 +194,21 @@ public class SpinnerPress extends LeafComponent {
 
     /**
      * {@inheritDoc}
-     * Valida el estado actual del componente.
-     * <p>
-     * Comprueba si el valor está en el rango de 0 a 100. Si no es válido,
-     * cambia el color de fondo a rojo y establece un mensaje de error.
+     * Valida si el valor de 'data' se encuentra en el rango de 0 a 100.
      *
      * @return {@code true} si el valor es válido, {@code false} en caso contrario.
      */
     @Override
     public boolean validar() {
-        if (pesoMaxPressBanca > maxValor || pesoMaxPressBanca < minValor) {
+        if (pesoMaxSentadilla > maxValor || pesoMaxSentadilla < minValor) {
             this.setBackground(ERROR_COLOR);
-            error = "Press de banca: El valor debe estar entre " + minValor + " y " + maxValor + ".";
+            error = ""; //Sentadilla: El valor debe estar entre " + minValor + " y " + maxValor + ".";
             return false;
         } else {
             setBackground(defaultBackgroundColor);
             error = "";
+            return true;
         }
-        return true;
     }
 
     /**
@@ -222,11 +229,6 @@ public class SpinnerPress extends LeafComponent {
     public Set<String> getSharedProperies() {
         return sharedProperties;
     }
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JSpinner jSpinner1;
-    // End of variables declaration//GEN-END:variables
 
 }
 
