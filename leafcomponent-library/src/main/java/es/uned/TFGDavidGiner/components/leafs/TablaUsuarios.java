@@ -150,6 +150,7 @@ public class TablaUsuarios extends LeafComponent {
             this.pesoMaxPressBanca = nuevoPeso;
             if (selectedUserIndex != -1) {
                 listaDeUsuarios.get(selectedUserIndex).setPesoMaxPressBanca(nuevoPeso);
+                SwingUtilities.invokeLater(() -> tableModel.fireTableRowsUpdated(selectedUserIndex, selectedUserIndex));
             }
             firePropertyChange("pesoMaxPressBanca", oldValue, nuevoPeso);
         }
@@ -162,6 +163,7 @@ public class TablaUsuarios extends LeafComponent {
             this.pesoMaxSentadilla = nuevoPeso;
             if (selectedUserIndex != -1) {
                 listaDeUsuarios.get(selectedUserIndex).setPesoMaxSentadilla(nuevoPeso);
+                SwingUtilities.invokeLater(() -> tableModel.fireTableRowsUpdated(selectedUserIndex, selectedUserIndex));
             }
             firePropertyChange("pesoMaxSentadilla", oldValue, nuevoPeso);
         }
@@ -185,14 +187,25 @@ public class TablaUsuarios extends LeafComponent {
         tablaUsuarios.setModel(tableModel);
         validationErrors.clear(); // Se limpian los errores visuales.
         
-        // Se notifica que la selección puede haber cambiado.
-        if (tablaUsuarios.getRowCount() > 0) {
-             tablaUsuarios.setRowSelectionInterval(0, 0);
-        } else {
+        //Se resetea el estado interno del componente ANTES de cualquier re-selección.
+        this.nombre = "";
+        this.apellido = "";
+        this.nivel = "";
+        this.pesoMaxPressBanca = 0;
+        this.pesoMaxSentadilla = 0;
+        this.selectedUserIndex = -1;
+        tablaUsuarios.clearSelection();
+        
+//        // Se notifica que la selección puede haber cambiado.
+//        if (tablaUsuarios.getRowCount() > 0) {
+//             tablaUsuarios.setRowSelectionInterval(0, 0);
+//        } else {
              firePropertyChange("nombre", null, "");
              firePropertyChange("apellido", null, "");
              firePropertyChange("nivel", null, "");
-        }
+             firePropertyChange("pesoMaxPressBanca", null, 0);
+             firePropertyChange("pesoMaxSentadilla", null, 0);
+//        }
         
         return true;
     }

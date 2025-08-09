@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
 public class UsuarioTableModel extends AbstractTableModel {
 
     private final List<Usuario> usuarios;
-    private final String[] columnNames = {"Nombre", "Apellido", "Nivel"};
+    private final String[] columnNames = {"Nombre", "Apellido", "Nivel","Press Banca (Kg)","Sentadilla (Kg)"};
 
     public UsuarioTableModel(List<Usuario> usuarios) {
         this.usuarios = usuarios;
@@ -38,6 +38,8 @@ public class UsuarioTableModel extends AbstractTableModel {
             case 0: return usuario.getNombre();
             case 1: return usuario.getApellido();
             case 2: return usuario.getNivel();
+            case 3: return usuario.getPesoMaxPressBanca();
+            case 4: return usuario.getPesoMaxSentadilla();
             default: return null;
         }
     }
