@@ -80,4 +80,60 @@ public class LeafComponentFactory {
     public static ComponenteD createComponenteD() {
         return new ComponenteD();
     }
+    
+    /**
+     * Crea una nueva instancia de {@link GraficoRendimiento}.
+     * @return un nuevo {@code GraficoRendimiento}.
+     */
+    public static GraficoRendimiento createGraficoRendimiento() {
+        return new GraficoRendimiento();
+    }
+    
+    /**
+     * Crea una nueva instancia de {@link PanelDatosUsuario}.
+     * @return un nuevo {@code PanelDatosUsuario}.
+     */
+    public static PanelDatosUsuario createPanelDatosUsuario() {
+        return new PanelDatosUsuario();
+    }
+    
+    /**
+     * Crea una nueva instancia de {@link SliderPress}.
+     * @return un nuevo {@code SliderPress}.
+     */
+    public static SliderPress createSliderPress() {
+        return new SliderPress();
+    }
+    
+    /**
+     * Crea una nueva instancia de {@link SliderSquad}.
+     * @return un nuevo {@code SliderSquad}.
+     */
+    public static SliderSquad createSliderSquad() {
+        return new SliderSquad();
+    }
+
+    /**
+     * Crea una nueva instancia de {@link SpinnerPress}.
+     * @return un nuevo {@code SpinnerPress}.
+     */
+    public static SpinnerPress createSpinnerPress() {
+        return new SpinnerPress();
+    }
+
+    /**
+     * Crea una nueva instancia de {@link SpinnerSquad}.
+     * @return un nuevo {@code SpinnerSquad}.
+     */
+    public static SpinnerSquad createSpinnerSquad() {
+        return new SpinnerSquad();
+    }
+    
+    /**
+     * Crea una nueva instancia de {@link TablaUsuarios}.
+     * @return un nuevo {@code TablaUsuarios}.
+     */
+    public static TablaUsuarios createTablaUsuarios() {
+        return new TablaUsuarios();
+    }
 }
