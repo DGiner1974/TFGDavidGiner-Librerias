@@ -64,9 +64,9 @@ public class GimnasioDemoFrame2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        treeContainer1.setDesignTimeSelectionPath("Raíz, Datos Generales");
+        treeContainer1.setDesignTimeSelectionPath("Raíz, Gestión de Socios");
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Raíz");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Datos Generales");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Gestión de Socios");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Capacidades Físicas");
         treeNode1.add(treeNode2);

@@ -34,9 +34,9 @@
       <SubComponents>
         <Container class="es.uned.TFGDavidGiner.components.containers.TreeContainer" name="treeContainer1">
           <Properties>
-            <Property name="designTimeSelectionPath" type="java.lang.String" value="Ra&#xed;z, Datos Generales"/>
+            <Property name="designTimeSelectionPath" type="java.lang.String" value="Ra&#xed;z, Gesti&#xf3;n de Socios"/>
             <Property name="estructuraArbol" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-              <TreeModel code="Ra&#xed;z&#xa; Datos Generales&#xa; Capacidades F&#xed;sicas"/>
+              <TreeModel code="Ra&#xed;z&#xa; Gesti&#xf3;n de Socios&#xa; Capacidades F&#xed;sicas"/>
             </Property>
           </Properties>
 
