@@ -24,4 +24,5 @@
         <maven.compiler.release>24</maven.compiler.release>
         <exec.mainClass>es.uned.demo.application.DemoApplication</exec.mainClass>
     </properties>
+    <version>1.0</version>
 </project>
