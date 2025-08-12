@@ -6,6 +6,7 @@ import es.uned.TFGDavidGiner.components.modelo.UsuarioTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,6 +64,7 @@ public class TablaUsuarios extends LeafComponent {
         tableModel = new UsuarioTableModel(this.listaDeUsuarios);
         tablaUsuarios = new JTable(tableModel);
         tablaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setPreferredSize(new Dimension(200, 150));
 
          // Se asigna el renderizador personalizado para colorear las filas con errores.
         tablaUsuarios.setDefaultRenderer(Object.class, new ValidationTableCellRenderer());
