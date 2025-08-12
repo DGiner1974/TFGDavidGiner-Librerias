@@ -8,35 +8,39 @@ import es.uned.TFGDavidGiner.components.modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *
  * @author david
  */
-public class GimnasioDemoFrame extends javax.swing.JFrame {
+public class GimnasioDemoFrarne extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GimnasioDemoFrame.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GimnasioDemoFrarne.class.getName());
 
     /**
-     * Constructor por defecto.
-     * <p>
-     * Crea una nueva instancia del frame, inicializa los componentes visuales,
-     * carga los datos de prueba de usuarios y muestra la ventana maximizada.
+     * Creates new form NewJFrame3
      */
-    public GimnasioDemoFrame() {
+    public GimnasioDemoFrarne() {
         initComponents();
          // Carga de Datos de Prueba ---
         tablaUsuarios1.setUsuarios(crearDatosDePrueba());
-        
-        // NOTA: No es necesario añadir listeners manualmente. El framework se encarga
-        // del data binding automático porque los 3 componentes hoja comparten la
-        // propiedad "usuarioSeleccionado" y están dentro del mismo BaseContainer.
-        
+         
         // Finalización ---
         this.pack();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Iniciar maximizado
         this.setLocationRelativeTo(null);
+    }
+    
+    /**
+     * Crea una lista de usuarios de ejemplo para poblar la tabla.
+     * @return Una lista de objetos Usuario.
+     */
+    private List<Usuario> crearDatosDePrueba() {
+        List<Usuario> usuarios = new ArrayList<>();
+        usuarios.add(new Usuario("Ana", "García", "Intermedio", 60, 90));
+        usuarios.add(new Usuario("Carlos", "Martínez", "Avanzado", 120, 160));
+        usuarios.add(new Usuario("Elena", "Ruiz", "Principiante", 30, 40));
+        return usuarios;
     }
 
     /**
@@ -53,22 +57,22 @@ public class GimnasioDemoFrame extends javax.swing.JFrame {
         simpleContainer1 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
         tablaUsuarios1 = new es.uned.TFGDavidGiner.components.leafs.TablaUsuarios();
         tabContainer1 = new es.uned.TFGDavidGiner.components.containers.TabContainer();
-        simpleContainer4 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
-        panelDatosUsuario2 = new es.uned.TFGDavidGiner.components.leafs.PanelDatosUsuario();
-        simpleContainer5 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        simpleContainer2 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        panelDatosUsuario1 = new es.uned.TFGDavidGiner.components.leafs.PanelDatosUsuario();
+        simpleContainer3 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
         spinnerPress1 = new es.uned.TFGDavidGiner.components.leafs.SpinnerPress();
         spinnerSquad1 = new es.uned.TFGDavidGiner.components.leafs.SpinnerSquad();
-        graficoRendimiento3 = new es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento();
-        simpleContainer2 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
-        simpleContainer3 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        graficoRendimiento1 = new es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento();
+        simpleContainer4 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
+        simpleContainer5 = new es.uned.TFGDavidGiner.components.containers.SimpleContainer();
         sliderPress1 = new es.uned.TFGDavidGiner.components.leafs.SliderPress();
-        sliderSquad2 = new es.uned.TFGDavidGiner.components.leafs.SliderSquad();
+        sliderSquad1 = new es.uned.TFGDavidGiner.components.leafs.SliderSquad();
         graficoRendimiento2 = new es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        treeContainer1.setDesignTimeSelectionPath("Raíz, Gestión de Socios");
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Raíz");
+        treeContainer1.setDesignTimeSelectionPath("Gimnasio, Gestión de Socios");
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Gimnasio");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Gestión de Socios");
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Capacidades Físicas");
@@ -79,39 +83,35 @@ public class GimnasioDemoFrame extends javax.swing.JFrame {
         simpleContainer1.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
         simpleContainer1.getContentPane().add(tablaUsuarios1);
 
-        tabContainer1.setTabTitles("Datos Usuario, Gráfico Rendimiento");
+        tabContainer1.setTabTitles("Datos Usuario,Gráfico Rendimiento");
 
-        simpleContainer4.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
-        simpleContainer4.getContentPane().add(panelDatosUsuario2);
+        simpleContainer2.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
+        simpleContainer2.getContentPane().add(panelDatosUsuario1);
 
-        simpleContainer5.setDividerLocation(400);
-        simpleContainer5.setDividerSize(0);
-        simpleContainer5.getContentPane().add(spinnerPress1);
-        simpleContainer5.getContentPane().add(spinnerSquad1);
+        simpleContainer3.getContentPane().add(spinnerPress1);
+        simpleContainer3.getContentPane().add(spinnerSquad1);
 
-        simpleContainer4.getContentPane().add(simpleContainer5);
+        simpleContainer2.getContentPane().add(simpleContainer3);
 
-        tabContainer1.getContentPane().add(simpleContainer4);
-        tabContainer1.getContentPane().add(graficoRendimiento3);
+        tabContainer1.getContentPane().add(simpleContainer2);
+        tabContainer1.getContentPane().add(graficoRendimiento1);
 
         simpleContainer1.getContentPane().add(tabContainer1);
 
         treeContainer1.getContentPane().add(simpleContainer1);
-        simpleContainer1.setBounds(210, 140, 200, 150);
+        simpleContainer1.setBounds(140, 70, 200, 150);
 
-        simpleContainer2.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
+        simpleContainer4.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
 
-        simpleContainer3.setDividerLocation(50);
-        simpleContainer3.setDividerSize(1);
-        simpleContainer3.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
-        simpleContainer3.getContentPane().add(sliderPress1);
-        simpleContainer3.getContentPane().add(sliderSquad2);
+        simpleContainer5.setOrientation(es.uned.TFGDavidGiner.core.SplitOrientation.VERTICAL);
+        simpleContainer5.getContentPane().add(sliderPress1);
+        simpleContainer5.getContentPane().add(sliderSquad1);
 
-        simpleContainer2.getContentPane().add(simpleContainer3);
-        simpleContainer2.getContentPane().add(graficoRendimiento2);
+        simpleContainer4.getContentPane().add(simpleContainer5);
+        simpleContainer4.getContentPane().add(graficoRendimiento2);
 
-        treeContainer1.getContentPane().add(simpleContainer2);
-        simpleContainer2.setBounds(-170, 120, 200, 150);
+        treeContainer1.getContentPane().add(simpleContainer4);
+        simpleContainer4.setBounds(-160, 130, 200, 150);
 
         buttonPanelContainer1.getContentPane().add(treeContainer1);
 
@@ -142,33 +142,21 @@ public class GimnasioDemoFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GimnasioDemoFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new GimnasioDemoFrarne().setVisible(true));
     }
 
-        /**
-     * Crea una lista de usuarios de ejemplo para poblar la tabla.
-     * @return Una lista de objetos Usuario.
-     */
-    private List<Usuario> crearDatosDePrueba() {
-        List<Usuario> usuarios = new ArrayList<>();
-        usuarios.add(new Usuario("Ana", "García", "Intermedio", 60, 90));
-        usuarios.add(new Usuario("Carlos", "Martínez", "Avanzado", 120, 160));
-        usuarios.add(new Usuario("Elena", "Ruiz", "Principiante", 30, 40));
-        return usuarios;
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private es.uned.TFGDavidGiner.components.containers.ButtonPanelContainer buttonPanelContainer1;
+    private es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento graficoRendimiento1;
     private es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento graficoRendimiento2;
-    private es.uned.TFGDavidGiner.components.leafs.GraficoRendimiento graficoRendimiento3;
-    private es.uned.TFGDavidGiner.components.leafs.PanelDatosUsuario panelDatosUsuario2;
+    private es.uned.TFGDavidGiner.components.leafs.PanelDatosUsuario panelDatosUsuario1;
     private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer1;
     private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer2;
     private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer3;
     private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer4;
     private es.uned.TFGDavidGiner.components.containers.SimpleContainer simpleContainer5;
     private es.uned.TFGDavidGiner.components.leafs.SliderPress sliderPress1;
-    private es.uned.TFGDavidGiner.components.leafs.SliderSquad sliderSquad2;
+    private es.uned.TFGDavidGiner.components.leafs.SliderSquad sliderSquad1;
     private es.uned.TFGDavidGiner.components.leafs.SpinnerPress spinnerPress1;
     private es.uned.TFGDavidGiner.components.leafs.SpinnerSquad spinnerSquad1;
     private es.uned.TFGDavidGiner.components.containers.TabContainer tabContainer1;
