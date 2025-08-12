@@ -255,14 +255,23 @@ public class SimpleContainer extends BaseContainer {
                 splitPane.setLeftComponent(component);
             } else if (splitPane.getRightComponent() == null) {
                 splitPane.setRightComponent(component);
-                
-//                // Al añadir el segundo componente, ajustamos el divisor al 50%.
-//                // Usamos invokeLater para asegurar que se ejecute después de que el
-//                // layout se haya actualizado.
-//                SwingUtilities.invokeLater(() -> {
-//                    splitPane.setDividerLocation(0.5);
-//                    splitPane.setResizeWeight(0.5); // Asegura que se mantenga al 50% al redimensionar.
-//                });
+                // Al añadir el segundo componente, ajustamos el divisor basándonos
+                // en el tamaño preferido del primer componente.
+                SwingUtilities.invokeLater(() -> {
+                    Component leftComponent = splitPane.getLeftComponent();
+                    if (leftComponent != null) {
+                        Dimension preferredSize = leftComponent.getPreferredSize();
+                        if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+                            splitPane.setDividerLocation(preferredSize.width);
+                        } else {
+                            splitPane.setDividerLocation(preferredSize.height);
+                        }
+                        // Se establece el peso a 0.0 para que el panel izquierdo mantenga
+                        // su tamaño preferido al redimensionar, y el derecho se expanda.
+                        splitPane.setResizeWeight(0.0);
+                    }
+                });
+
             } else {
                 // Si ambos huecos están ocupados, muestra un error.
                 JOptionPane.showMessageDialog(this,
