@@ -292,8 +292,8 @@ public class TablaUsuarios extends LeafComponent {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Integer, String> entry : validationErrors.entrySet()) {
             Usuario u = listaDeUsuarios.get(entry.getKey());
-            sb.append("Fila ").append(entry.getKey() + 1).append(" (")
-              .append(u.getNombre()).append("): ")
+            sb.append("Fila ").append(entry.getKey() + 1).append(": ")/*.append(" (")
+              .append(u.getNombre()).append(" ").append(u.getApellido()).append("): ")*/
               .append(entry.getValue()).append("\n");
         }
         return sb.toString();
