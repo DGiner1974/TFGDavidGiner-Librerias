@@ -195,7 +195,13 @@ public class SimpleContainer extends BaseContainer {
     }
 
     /**
-     * Sobrescribe el método {@code remove} que usa un índice.
+     * Sobrescribe el método de eliminación por índice.
+     * <p>
+     * La lógica principal de eliminación se gestiona en el método
+     * {@link #remove(Component)}, que es más robusto para la estructura
+     * interna de este contenedor. Se mantiene esta implementación por si el
+     * diseñador visual del IDE la invoca directamente.
+     *
      * @param index el índice del componente a eliminar.
      */
     @Override

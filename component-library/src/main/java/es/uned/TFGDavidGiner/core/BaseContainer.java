@@ -75,12 +75,15 @@ public abstract class BaseContainer extends BaseComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Añade un {@link PropertyChangeListener} para sincronizar una propiedad entre dos componentes.
-     * Cuando una propiedad compartida cambia en el componente de origen, el cambio se propaga
-     * al componente de destino. La sincronización es unidireccional (origen -> destino).
+     * Método de ayuda interno que crea y registra un {@link PropertyChangeListener}
+     * para sincronizar una propiedad compartida entre dos componentes.
+     * <p>
+     * El listener creado se añade al componente de origen y, al activarse,
+     * propaga el nuevo valor de la propiedad al componente de destino mediante
+     * reflexión.
      *
-     * @param origin El componente que implementa la interface {@link IShareableProperties} de origen que emite el evento de cambio.
-     * @param destiny El componente que implementa la interface {@link IShareableProperties} de destino que recibirá la actualización.
+     * @param originComp El componente de origen que emite el evento.
+     * @param destinyComp El componente de destino que recibirá la actualización.
      */
     private void AddListener(Component originComp, Component destinyComp) {
         IShareableProperties origin = (IShareableProperties) originComp;

@@ -52,8 +52,13 @@ public abstract class BaseComponent extends javax.swing.JPanel implements IValid
     }
     
     /**
-     * Obtiene el indicador de si se debe mostrar el borde o no
-     * @return El valor como un {@code boolean}
+     * Comprueba si el borde del componente debe ser visible.
+     * <p>
+     * Este método es {@code protected} para que las clases descendientes y los
+     * contenedores del mismo paquete puedan consultar esta propiedad, pero
+     * permanece oculto para el desarrollador de aplicaciones final.
+     *
+     * @return El valor actual de la propiedad {@code showBorder}.
      */
     protected boolean getShowBorder() {
         return this.showBorder;

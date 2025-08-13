@@ -194,7 +194,11 @@ public class SliderPress extends LeafComponent {
 
     /**
      * {@inheritDoc}
-     * Valida si el valor de 'data' se encuentra en el rango de 0 a 100.
+     * <p>
+     * Valida que el valor de la propiedad {@code pesoMaxPressBanca} se encuentre
+     * dentro del rango definido por los campos {@code minValor} y {@code maxValor} (0-200).
+     * Si el valor está fuera de rango, cambia el color de fondo del componente
+     * a un color de error y prepara un mensaje descriptivo.
      *
      * @return {@code true} si el valor es válido, {@code false} en caso contrario.
      */

@@ -117,42 +117,49 @@ public class ButtonPanelContainer extends BaseContainer implements ActionListene
     }
     
     /**
- * Maneja los eventos de acción provenientes del ButtonPanel.
- * @param evt El ActionEvent recibido.
- */
-@Override
-public void actionPerformed(ActionEvent evt) {
-    // Obtenemos todos los componentes hoja que este contenedor gestiona.
-    // getComponentsHoja() debería ser un método en BaseContainer que busca recursivamente.
-    Component[] componentesAValidar = this.splitPane.getComponents();
-    
-    // Comprobamos el comando del evento para saber qué botón se pulsó
-    String command = evt.getActionCommand();
-    
-    if (ButtonPanel.ACCEPT_COMMAND.equals(command)) {
-        // --- LÓGICA DE ACEPTAR (VALIDAR) ---
-        for (Component c : componentesAValidar) {
-            if (c instanceof IValidation) {
-                IValidation componenteValidable = (IValidation) c;
-                if (!componenteValidable.validar()) {
-                    JOptionPane.showMessageDialog(this, componenteValidable.getError(), "Error de validación", JOptionPane.ERROR_MESSAGE);
-                    // Opcional: detener la validación en el primer error
-                    return; 
+     * Maneja los eventos de acción provenientes del {@link ButtonPanel} interno.
+     * <p>
+     * Este método actúa como el controlador principal para la lógica de Aceptar/Cancelar.
+     * Basándose en el comando de acción del evento, invoca de forma recursiva
+     * los métodos {@link #validar()} o {@link #configurar()} sobre el componente
+     * de contenido principal, propagando la acción a toda la jerarquía de
+     * componentes anidados.
+     *
+     * @param evt El {@link ActionEvent} recibido desde el panel de botones.
+     */
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        // Obtenemos todos los componentes hoja que este contenedor gestiona.
+        // getComponentsHoja() debería ser un método en BaseContainer que busca recursivamente.
+        Component[] componentesAValidar = this.splitPane.getComponents();
+
+        // Comprobamos el comando del evento para saber qué botón se pulsó
+        String command = evt.getActionCommand();
+
+        if (ButtonPanel.ACCEPT_COMMAND.equals(command)) {
+            // --- LÓGICA DE ACEPTAR (VALIDAR) ---
+            for (Component c : componentesAValidar) {
+                if (c instanceof IValidation) {
+                    IValidation componenteValidable = (IValidation) c;
+                    if (!componenteValidable.validar()) {
+                        JOptionPane.showMessageDialog(this, componenteValidable.getError(), "Error de validación", JOptionPane.ERROR_MESSAGE);
+                        // Opcional: detener la validación en el primer error
+                        return; 
+                    }
+                }
+            }
+            // Opcional: Si todo es válido, mostrar un mensaje de éxito.
+            JOptionPane.showMessageDialog(this, "Todos los componentes son válidos.", "Validación Correcta", JOptionPane.INFORMATION_MESSAGE);
+
+        } else if (ButtonPanel.CANCEL_COMMAND.equals(command)) {
+            // --- LÓGICA DE CANCELAR (CONFIGURAR/RESETEAR) ---
+            for (Component c : componentesAValidar) {
+                if (c instanceof IValidation) {
+                    ((IValidation) c).configurar();
                 }
             }
         }
-        // Opcional: Si todo es válido, mostrar un mensaje de éxito.
-        JOptionPane.showMessageDialog(this, "Todos los componentes son válidos.", "Validación Correcta", JOptionPane.INFORMATION_MESSAGE);
-
-    } else if (ButtonPanel.CANCEL_COMMAND.equals(command)) {
-        // --- LÓGICA DE CANCELAR (CONFIGURAR/RESETEAR) ---
-        for (Component c : componentesAValidar) {
-            if (c instanceof IValidation) {
-                ((IValidation) c).configurar();
-            }
-        }
     }
-}
 
     /**
      * Se notifica a este componente que ha sido añadido a un contenedor.
@@ -185,9 +192,12 @@ public void actionPerformed(ActionEvent evt) {
     
     /**
      * Establece la orientación del {@link JSplitPane} interno.
+     * <p>
+     * Este método es privado para asegurar que la orientación del contenedor
+     * sea siempre vertical, manteniendo una disposición estándar con el contenido
+     * arriba y la botonera abajo.
      *
-     * @param newOrientation La nueva orientación (VERTICAL u HORIZONTAL).
-     * @throws IllegalArgumentException si la orientación es nula.
+     * @param newOrientation La nueva orientación (siempre {@code VERTICAL}).
      */
     private void setOrientation(SplitOrientation newOrientation) {
         if (newOrientation == null) {

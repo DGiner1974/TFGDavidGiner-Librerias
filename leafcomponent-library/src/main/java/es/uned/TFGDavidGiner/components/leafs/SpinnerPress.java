@@ -184,10 +184,11 @@ public class SpinnerPress extends LeafComponent {
 
     /**
      * {@inheritDoc}
-     * Valida el estado actual del componente.
      * <p>
-     * Comprueba si el valor está en el rango de 0 a 100. Si no es válido,
-     * cambia el color de fondo a rojo y establece un mensaje de error.
+     * Valida que el valor de la propiedad {@code pesoMaxPressBanca} se encuentre
+     * dentro del rango definido por los campos {@code minValor} y {@code maxValor} (0-200).
+     * Si el valor está fuera de rango, cambia el color de fondo del componente
+     * a un color de error y prepara un mensaje descriptivo.
      *
      * @return {@code true} si el valor es válido, {@code false} en caso contrario.
      */

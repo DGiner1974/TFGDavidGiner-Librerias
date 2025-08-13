@@ -34,8 +34,10 @@ public abstract class LeafComponent extends BaseComponent implements IShareableP
     private final EventListenerList listeners;
 
     /**
-     * Índice que puede ser utilizado para identificar la posición de este componente
-     * dentro de un contenedor.
+     * Índice que puede ser utilizado para identificar unívocamente a este componente
+     * dentro de un contenedor que maneje múltiples instancias del mismo tipo,
+     * como por ejemplo en una lista o tabla. Su gestión depende del
+     * contenedor padre.
      */
     private int indiceComponente;
 

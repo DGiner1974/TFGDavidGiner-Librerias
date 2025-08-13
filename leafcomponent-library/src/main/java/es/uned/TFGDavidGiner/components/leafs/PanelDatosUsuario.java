@@ -109,6 +109,12 @@ public class PanelDatosUsuario extends LeafComponent {
         );
     }
     
+    /**
+    * Actualiza los componentes visuales del formulario (JTextFields, JComboBox)
+    * para que reflejen los valores actuales de las propiedades internas
+    * (nombre, apellido, nivel). También gestiona la habilitación/deshabilitación
+    * de los campos.
+    */
     private void actualizarUI() {
         jTextFieldNombre.setText(this.nombre);
         jTextFieldApellido.setText(this.apellido);
