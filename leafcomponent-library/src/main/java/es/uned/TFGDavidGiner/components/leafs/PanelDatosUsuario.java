@@ -1,13 +1,22 @@
 package es.uned.TFGDavidGiner.components.leafs;
 
 import es.uned.TFGDavidGiner.core.LeafComponent;
+import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
+/**
+ * Componente hoja que encapsula un formulario para editar los datos de un Usuario.
+ * Se sincroniza con otros componentes a través de propiedades compartidas y
+ * proporciona una lógica de validación para los datos introducidos.
+ */
 public class PanelDatosUsuario extends LeafComponent {
 
     // --- Componentes Visuales ---
@@ -23,9 +32,21 @@ public class PanelDatosUsuario extends LeafComponent {
     private String apellido = "";
     private String nivel = "Principiante";
 
+    /**
+     * Almacena el color de fondo por defecto del componente para poder restaurarlo.
+     */
+    private final Color defaultBackgroundColor;
+
+    /**
+     * Define el color que se usará para resaltar un error de validación.
+     */
+    private static final Color ERROR_COLOR = new Color(255, 51, 51); 
+    
     private static final Set<String> sharedProperties = Set.of("nombre", "apellido", "nivel");
 
     public PanelDatosUsuario() {
+        // Se captura el color por defecto ANTES de que se inicialicen los componentes.
+        this.defaultBackgroundColor = UIManager.getColor("Panel.background");
         initComponents();
         actualizarUI(); // Se asegura de que los campos estén desactivados al inicio.
     }
@@ -93,10 +114,10 @@ public class PanelDatosUsuario extends LeafComponent {
         jTextFieldApellido.setText(this.apellido);
         jComboBoxNivel.setSelectedItem(this.nivel);
         
-        boolean enabled = this.nombre != null && !this.nombre.isEmpty();
-        jTextFieldNombre.setEnabled(enabled);
-        jTextFieldApellido.setEnabled(enabled);
-        jComboBoxNivel.setEnabled(enabled);
+//        boolean enabled = (this.nombre != null && !this.nombre.isEmpty()) || (this.apellido != null && !this.apellido.isEmpty());
+//        jTextFieldNombre.setEnabled(enabled);
+//        jTextFieldApellido.setEnabled(enabled);
+//        jComboBoxNivel.setEnabled(enabled);
     }
 
     // --- Getters y Setters para las propiedades compartidas ---
@@ -133,10 +154,70 @@ public class PanelDatosUsuario extends LeafComponent {
 
     @Override
     public Set<String> getSharedProperies() { return sharedProperties; }
+    
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Restaura los campos del formulario al último estado válido conocido y
+     * limpia cualquier indicador visual de error.
+     */
     @Override
-    public boolean configurar() { /* Lógica de reseteo si es necesaria */ return true; }
+    public boolean configurar() { 
+        actualizarUI();
+        setBackground(defaultBackgroundColor);
+        return true;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Comprueba si los datos del formulario son válidos. Las reglas son:
+     * <ul>
+     * <li>El nombre no puede estar vacío.</li>
+     * <li>El apellido no puede estar vacío.</li>
+     * <li>El nivel debe ser uno de los valores predefinidos.</li>
+     * </ul>
+     * Si la validación falla, el fondo del componente se pinta de color rojo.
+     * @return {@code true} si todos los campos son válidos, {@code false} en caso contrario.
+     */
     @Override
-    public boolean validar() { return true; /* Validación si es necesaria */ }
+    public boolean validar() {
+        // Solo se valida si el componente está activo (tiene un usuario cargado).
+        if (!jTextFieldNombre.isEnabled()) {
+            return true;
+        }
+
+        if (getError().isEmpty()) {
+            setBackground(defaultBackgroundColor);
+            return true;
+        } else {
+            setBackground(ERROR_COLOR); 
+            return false;
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Devuelve una cadena con todos los errores de validación encontrados en el formulario,
+     * uno por línea.
+     * @return Una cadena con los errores, o una cadena vacía si los datos son válidos.
+     */
     @Override
-    public String getError() { return ""; }
+    public String getError() {
+        StringBuilder errors = new StringBuilder();
+        final List<String> NIVELES_VALIDOS = Arrays.asList("Principiante", "Intermedio", "Avanzado");
+
+        if (getNombre() == null || getNombre().trim().isEmpty()) {
+            errors.append("El nombre no puede estar vacío.\n");
+        }
+        if (getApellido() == null || getApellido().trim().isEmpty()) {
+            errors.append("El apellido no puede estar vacío.\n");
+        }
+        if (!NIVELES_VALIDOS.contains(getNivel())) {
+            errors.append("El nivel seleccionado no es válido.\n");
+        }
+        
+        return errors.toString().trim();    
+    }
 }
