@@ -129,8 +129,8 @@ public class ButtonPanelContainer extends BaseContainer implements ActionListene
      */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        // Obtenemos todos los componentes hoja que este contenedor gestiona.
-        // getComponentsHoja() debería ser un método en BaseContainer que busca recursivamente.
+        // Obtenemos los componentes del contenedor aunque sólo aplicamos la lógica de validar/cancelar sobre los que implementan IValidation
+        // que sólo será uno que aplicará la validación de forma recursiva si es un contenedor.
         Component[] componentesAValidar = this.splitPane.getComponents();
 
         // Comprobamos el comando del evento para saber qué botón se pulsó
@@ -143,7 +143,6 @@ public class ButtonPanelContainer extends BaseContainer implements ActionListene
                     IValidation componenteValidable = (IValidation) c;
                     if (!componenteValidable.validar()) {
                         JOptionPane.showMessageDialog(this, componenteValidable.getError(), "Error de validación", JOptionPane.ERROR_MESSAGE);
-                        // Opcional: detener la validación en el primer error
                         return; 
                     }
                 }
