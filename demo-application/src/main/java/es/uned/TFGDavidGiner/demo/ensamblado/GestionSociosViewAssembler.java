@@ -61,7 +61,7 @@ public class GestionSociosViewAssembler implements IGuiAssembler {
         PanelDatosUsuario panelDatos = LeafComponentFactory.createPanelDatosUsuario();
         GraficoRendimiento graficoRendimiento = LeafComponentFactory.createGraficoRendimiento();
         SpinnerPress spinnerPress = LeafComponentFactory.createSpinnerPress();
-        SpinnerSquad spinnerSquad = LeafComponentFactory.createSpinnerSquad();
+        SpinnerSquat spinnerSquat = LeafComponentFactory.createSpinnerSquat();
 
         // Carga de datos
         tablaUsuarios.setUsuarios(datosDePrueba);
@@ -70,7 +70,7 @@ public class GestionSociosViewAssembler implements IGuiAssembler {
         // Se crea un panel para los spinners de rendimiento
         SimpleContainer panelSpinners = ContainerFactory.createSimpleContainer();
         panelSpinners.getContentPane().add(spinnerPress);
-        panelSpinners.getContentPane().add(spinnerSquad);
+        panelSpinners.getContentPane().add(spinnerSquat);
 
         // Se crea un panel que combina el formulario de datos y los spinners
         SimpleContainer panelDatosCompleto = ContainerFactory.createSimpleContainer();

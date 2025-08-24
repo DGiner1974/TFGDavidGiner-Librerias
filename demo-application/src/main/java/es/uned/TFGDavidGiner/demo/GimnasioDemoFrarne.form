@@ -83,7 +83,7 @@
                           <SubComponents>
                             <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerPress" name="spinnerPress1">
                             </Component>
-                            <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerSquad" name="spinnerSquad1">
+                            <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerSquat" name="spinnerSquat1">
                             </Component>
                           </SubComponents>
                         </Container>
@@ -120,7 +120,7 @@
                   <SubComponents>
                     <Component class="es.uned.TFGDavidGiner.components.leafs.SliderPress" name="sliderPress1">
                     </Component>
-                    <Component class="es.uned.TFGDavidGiner.components.leafs.SliderSquad" name="sliderSquad1">
+                    <Component class="es.uned.TFGDavidGiner.components.leafs.SliderSquat" name="sliderSquat1">
                     </Component>
                   </SubComponents>
                 </Container>

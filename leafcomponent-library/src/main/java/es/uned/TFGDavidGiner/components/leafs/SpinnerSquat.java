@@ -19,7 +19,7 @@ import java.util.Set;
  * @version 1.0
  * @since 12-07-2025
  */
-public class SpinnerSquad extends LeafComponent {
+public class SpinnerSquat extends LeafComponent {
 
     //<editor-fold defaultstate="collapsed" desc="Declaración de campos y constantes">
     /**
@@ -65,7 +65,7 @@ public class SpinnerSquad extends LeafComponent {
      * <p>
      * Inicializa los componentes visuales de la interfaz de usuario.
      */
-    public SpinnerSquad() {
+    public SpinnerSquat() {
         initComponents();
     }
 
@@ -89,7 +89,7 @@ public class SpinnerSquad extends LeafComponent {
             }
         });
 
-        jLabel1.setText("Squad (Kg):");
+        jLabel1.setText("Squat (Kg):");
         jLabel1.setMaximumSize(new java.awt.Dimension(75, 16));
         jLabel1.setMinimumSize(new java.awt.Dimension(75, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(75, 16));

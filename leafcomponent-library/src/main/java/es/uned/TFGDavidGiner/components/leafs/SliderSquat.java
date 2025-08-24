@@ -21,7 +21,7 @@ import java.util.Set;
  * @version 1.0
  * @since 12-07-2025
  */
-public class SliderSquad extends LeafComponent {
+public class SliderSquat extends LeafComponent {
 
     //<editor-fold defaultstate="collapsed" desc="Declaración de campos y constantes">
     /**
@@ -67,7 +67,7 @@ public class SliderSquad extends LeafComponent {
      * Inicializa los componentes visuales y establece el valor inicial de la
      * propiedad 'data' basándose en el valor por defecto del JSlider.
      */
-    public SliderSquad() {
+    public SliderSquat() {
         initComponents();
         //Asignamos los límites del slider
         this.jSlider1.setMinimum(minValor);
@@ -96,7 +96,7 @@ public class SliderSquad extends LeafComponent {
             }
         });
 
-        jLabel1.setText("Squad (Kg):");
+        jLabel1.setText("Squat (Kg):");
         jLabel1.setMaximumSize(new java.awt.Dimension(75, 16));
         jLabel1.setMinimumSize(new java.awt.Dimension(75, 16));
         jLabel1.setPreferredSize(new java.awt.Dimension(75, 16));
@@ -123,8 +123,6 @@ public class SliderSquad extends LeafComponent {
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jLabel1.getAccessibleContext().setAccessibleName("Squad (Kg):");
     }// </editor-fold>//GEN-END:initComponents
 
     /**

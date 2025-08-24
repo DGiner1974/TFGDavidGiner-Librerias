@@ -28,11 +28,11 @@ public class CapacidadesFisicasViewAssembler implements IGuiAssembler {
     /**
      * Ensambla y devuelve la interfaz gráfica para la vista de "Capacidades Físicas".
      * <p>
-     * Este método utiliza las factorías del framework para crear los componentes
-     * hoja (`SliderPress`, `SliderSquad`, `GraficoRendimiento`) y los contenedores
-     * (`SimpleContainer`) necesarios, y los compone en una jerarquía visual.
-     * El resultado es un único componente compuesto listo para ser integrado en
-     * un contenedor de nivel superior, como un {@link es.uned.TFGDavidGiner.components.containers.TreeContainer}.
+ Este método utiliza las factorías del framework para crear los componentes
+ hoja (`SliderPress`, `SliderSquat`, `GraficoRendimiento`) y los contenedores
+ (`SimpleContainer`) necesarios, y los compone en una jerarquía visual.
+ El resultado es un único componente compuesto listo para ser integrado en
+ un contenedor de nivel superior, como un {@link es.uned.TFGDavidGiner.components.containers.TreeContainer}.
      *
      * @return un {@link BaseComponent} que representa la GUI completa de esta vista.
      */
@@ -40,7 +40,7 @@ public class CapacidadesFisicasViewAssembler implements IGuiAssembler {
     public BaseComponent assembleGui() {
         // --- Creación de componentes hoja ---
         SliderPress sliderPress = LeafComponentFactory.createSliderPress();
-        SliderSquad sliderSquad = LeafComponentFactory.createSliderSquad();
+        SliderSquat sliderSquat = LeafComponentFactory.createSliderSquat();
         GraficoRendimiento graficoRendimiento = LeafComponentFactory.createGraficoRendimiento();
 
         // --- Ensamblado de la vista ---
@@ -48,7 +48,7 @@ public class CapacidadesFisicasViewAssembler implements IGuiAssembler {
         panelSliders.setOrientation(SplitOrientation.VERTICAL);
         panelSliders.setDividerLocation(50);
         panelSliders.getContentPane().add(sliderPress);
-        panelSliders.getContentPane().add(sliderSquad);
+        panelSliders.getContentPane().add(sliderSquat);
         
         SimpleContainer vistaCapacidades = ContainerFactory.createSimpleContainer();
         vistaCapacidades.setOrientation(SplitOrientation.VERTICAL);

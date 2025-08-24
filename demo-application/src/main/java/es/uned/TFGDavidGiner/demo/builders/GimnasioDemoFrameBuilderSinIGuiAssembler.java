@@ -72,9 +72,9 @@ public class GimnasioDemoFrameBuilderSinIGuiAssembler {
         PanelDatosUsuario panelDatos = LeafComponentFactory.createPanelDatosUsuario();
         GraficoRendimiento graficoRendimiento = LeafComponentFactory.createGraficoRendimiento();
         SpinnerPress spinnerPress = LeafComponentFactory.createSpinnerPress();
-        SpinnerSquad spinnerSquad = LeafComponentFactory.createSpinnerSquad();
+        SpinnerSquat spinnerSquat = LeafComponentFactory.createSpinnerSquat();
         SliderPress sliderPress = LeafComponentFactory.createSliderPress();
-        SliderSquad sliderSquad = LeafComponentFactory.createSliderSquad();
+        SliderSquat sliderSquat = LeafComponentFactory.createSliderSquat();
         GraficoRendimiento graficoRendimiento2 = LeafComponentFactory.createGraficoRendimiento();
 
         // Carga de datos en la tabla
@@ -83,7 +83,7 @@ public class GimnasioDemoFrameBuilderSinIGuiAssembler {
         // --- Ensamblado de la VISTA DE GESTIÓN DE SOCIOS ---
         SimpleContainer panelSpinners = ContainerFactory.createSimpleContainer();
         panelSpinners.getContentPane().add(spinnerPress);
-        panelSpinners.getContentPane().add(spinnerSquad);
+        panelSpinners.getContentPane().add(spinnerSquat);
 
         SimpleContainer panelDatosCompleto = ContainerFactory.createSimpleContainer();
         panelDatosCompleto.setOrientation(SplitOrientation.VERTICAL);
@@ -106,7 +106,7 @@ public class GimnasioDemoFrameBuilderSinIGuiAssembler {
         panelSliders.setOrientation(SplitOrientation.VERTICAL);
         panelSliders.setDividerLocation(50);
         panelSliders.getContentPane().add(sliderPress);
-        panelSliders.getContentPane().add(sliderSquad);
+        panelSliders.getContentPane().add(sliderSquat);
         
         SimpleContainer vistaCapacidades = ContainerFactory.createSimpleContainer();
         vistaCapacidades.setOrientation(SplitOrientation.VERTICAL);

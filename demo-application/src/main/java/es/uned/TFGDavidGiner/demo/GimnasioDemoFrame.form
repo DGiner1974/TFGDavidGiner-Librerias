@@ -87,7 +87,7 @@
                           <SubComponents>
                             <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerPress" name="spinnerPress1">
                             </Component>
-                            <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerSquad" name="spinnerSquad1">
+                            <Component class="es.uned.TFGDavidGiner.components.leafs.SpinnerSquat" name="spinnerSquat1">
                             </Component>
                           </SubComponents>
                         </Container>
@@ -115,7 +115,6 @@
               <SubComponents>
                 <Container class="es.uned.TFGDavidGiner.components.containers.SimpleContainer" name="simpleContainer3">
                   <Properties>
-                    <Property name="dividerLocation" type="int" value="50"/>
                     <Property name="dividerSize" type="int" value="1"/>
                     <Property name="orientation" type="es.uned.TFGDavidGiner.core.SplitOrientation" editor="org.netbeans.modules.form.editors.EnumEditor">
                       <Value id="VERTICAL"/>
@@ -126,7 +125,7 @@
                   <SubComponents>
                     <Component class="es.uned.TFGDavidGiner.components.leafs.SliderPress" name="sliderPress1">
                     </Component>
-                    <Component class="es.uned.TFGDavidGiner.components.leafs.SliderSquad" name="sliderSquad2">
+                    <Component class="es.uned.TFGDavidGiner.components.leafs.SliderSquat" name="sliderSquat2">
                     </Component>
                   </SubComponents>
                 </Container>

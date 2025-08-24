@@ -106,11 +106,11 @@ public class LeafComponentFactory {
     }
     
     /**
-     * Crea una nueva instancia de {@link SliderSquad}.
-     * @return un nuevo {@code SliderSquad}.
+     * Crea una nueva instancia de {@link SliderSquat}.
+     * @return un nuevo {@code SliderSquat}.
      */
-    public static SliderSquad createSliderSquad() {
-        return new SliderSquad();
+    public static SliderSquat createSliderSquat() {
+        return new SliderSquat();
     }
 
     /**
@@ -122,11 +122,11 @@ public class LeafComponentFactory {
     }
 
     /**
-     * Crea una nueva instancia de {@link SpinnerSquad}.
-     * @return un nuevo {@code SpinnerSquad}.
+     * Crea una nueva instancia de {@link SpinnerSquat}.
+     * @return un nuevo {@code SpinnerSquat}.
      */
-    public static SpinnerSquad createSpinnerSquad() {
-        return new SpinnerSquad();
+    public static SpinnerSquat createSpinnerSquat() {
+        return new SpinnerSquat();
     }
     
     /**
