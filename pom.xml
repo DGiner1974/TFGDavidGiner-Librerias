@@ -25,6 +25,10 @@
                             <goal>aggregate</goal> </goals>
                         <phase>site</phase> </execution>
                 </executions>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>
