@@ -9,7 +9,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
 
@@ -97,8 +95,8 @@ public class TablaUsuarios extends LeafComponent {
      */
     public void setUsuarios(List<Usuario> usuarios) {
         // Se clona cada usuario para asegurar que la lista original no sea modificada por referencia.
-        this.listaDeUsuarios = usuarios.stream().map(Usuario::clone).collect(Collectors.toList());
-        this.listaDeUsuariosOriginal = usuarios.stream().map(Usuario::clone).collect(Collectors.toList());
+        this.listaDeUsuarios = usuarios.stream().map(usuario -> usuario.clone()).collect(Collectors.toList());
+        this.listaDeUsuariosOriginal = usuarios.stream().map(usuario -> usuario.clone()).collect(Collectors.toList());
         
         this.tableModel = new UsuarioTableModel(this.listaDeUsuarios);
         this.tablaUsuarios.setModel(this.tableModel);
@@ -182,7 +180,7 @@ public class TablaUsuarios extends LeafComponent {
     public boolean configurar() {
         // Se clona la lista original de vuelta a la lista de trabajo.
         this.listaDeUsuarios = this.listaDeUsuariosOriginal.stream()
-                                    .map(Usuario::clone)
+                                    .map(usuario -> usuario.clone())
                                     .collect(Collectors.toList());
         
         tableModel = new UsuarioTableModel(this.listaDeUsuarios);

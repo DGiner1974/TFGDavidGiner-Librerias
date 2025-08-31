@@ -17,7 +17,7 @@ import es.uned.TFGDavidGiner.core.interfaces.IValidation;
  *
  * @author david
  * @version 1.0
- * @since 2024-07-12
+ * @since 2025-07-12
  */
 public abstract class BaseComponent extends javax.swing.JPanel implements IValidation {
 

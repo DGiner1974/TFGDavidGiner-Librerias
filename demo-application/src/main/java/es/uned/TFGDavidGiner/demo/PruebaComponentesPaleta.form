@@ -106,9 +106,6 @@
               </Constraints>
             </Component>
             <Container class="es.uned.TFGDavidGiner.components.containers.SimpleContainer" name="simpleContainer1">
-              <Properties>
-                <Property name="dividerLocation" type="int" value="300"/>
-              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="300" y="110" width="-1" height="-1"/>

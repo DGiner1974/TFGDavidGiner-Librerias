@@ -22,7 +22,7 @@ import javax.swing.tree.TreePath;
  * Implementa {@link PropertyChangeListener} para mantenerse sincronizado si el
  * modelo del árbol en el {@code TreeContainer} cambia.
  *
- * @author David Giner
+ * @author david
  * @version 1.0
  * @since 13-07-2025
  * @see java.beans.PropertyEditorSupport

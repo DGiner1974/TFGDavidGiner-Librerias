@@ -5,8 +5,10 @@
 package es.uned.TFGDavidGiner.demo;
 
 import es.uned.TFGDavidGiner.components.containers.TabContainer;
+import es.uned.TFGDavidGiner.demo.builders.GimnasioDemoFrameBuilderSinIGuiAssembler;
 import es.uned.TFGDavidGiner.demo.builders.MainFrameBuilder;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -14,16 +16,21 @@ import javax.swing.JFrame;
  */
 public class Inicio {
     public static void main(String[] args) {
-    // El desarrollador crea su panel de negocio (ej. un TabContainer)
-    TabContainer miContenido = new TabContainer();
-    // ... añade componentes a miContenido ...
-
+//    // El desarrollador crea su panel de negocio (ej. un TabContainer)
+//    TabContainer miContenido = new TabContainer();
+//    // ... añade componentes a miContenido ...
+//
+//    // Usa el Builder para construir el Frame de forma segura
+//    JFrame miVentana = new MainFrameBuilder()
+//                            .withContent(miContenido) // Solo puede poner un contenido
+//                            .build();{
+//            
+//
+//    miVentana.setVisible(true);
+//    
     // Usa el Builder para construir el Frame de forma segura
-    JFrame miVentana = new MainFrameBuilder()
-                            .withContent(miContenido) // Solo puede poner un contenido
-                            .build();
-    
-    miVentana.setVisible(true);
+    JFrame frame = new GimnasioDemoFrameBuilderSinIGuiAssembler().build();
+    frame.setVisible(true);
 }
     
 }

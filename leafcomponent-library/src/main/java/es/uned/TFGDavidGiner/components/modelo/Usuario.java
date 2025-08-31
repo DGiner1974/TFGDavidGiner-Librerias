@@ -73,7 +73,7 @@ public class Usuario {
      * @return un clon del objeto Usuario.
      */
     @Override
-    public Usuario clone() { // Se cambia a public y el tipo de retorno es Usuario
+    public Usuario clone() { 
         try {
             return (Usuario) super.clone();
         } catch (CloneNotSupportedException e) {

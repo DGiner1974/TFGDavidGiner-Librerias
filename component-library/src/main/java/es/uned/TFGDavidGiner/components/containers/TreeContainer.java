@@ -427,7 +427,7 @@ public class TreeContainer extends BaseContainer {
     }
     //</editor-fold>
     
-              /**
+   /**
     * Actualiza qué componente es visible en el JLayeredPane basándose
     * en el nodo actualmente seleccionado en el JTree.
     */

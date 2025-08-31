@@ -22,11 +22,11 @@ import javax.swing.tree.TreeNode;
  * responsabilidades son:
  * <ol>
  * <li>Declarar que {@code TreeContainer} es un contenedor visual.</li>
- * <li>Especificar cuál es el sub-componente que gestiona la adición de hijos.</li>
+ * <li>Especificar cuál es el subcomponente que gestiona la adición de hijos.</li>
  * <li>Personalizar el editor de propiedades para una experiencia de diseño mejorada.</li>
  * </ol>
  *
- * @author David Giner
+ * @author david
  * @version 1.0
  * @since 13-07-2025
  * @see java.beans.SimpleBeanInfo

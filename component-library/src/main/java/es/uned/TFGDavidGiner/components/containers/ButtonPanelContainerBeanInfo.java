@@ -75,15 +75,9 @@ public class ButtonPanelContainerBeanInfo extends SimpleBeanInfo {
             // a través de la introspección (analizando los métodos get/set).
             PropertyDescriptor[] pds = super.getPropertyDescriptors();
 
-            // En esta implementación no se modifica ninguna propiedad, pero se
-            // podría iterar sobre 'pds' para encontrar una propiedad por su nombre
-            // y personalizar su editor (por ejemplo, para crear un desplegable).
-            
             return pds;
 
         } catch (Exception e) {
-            // En caso de error durante la introspección, se imprime el error
-            // y se devuelve null para que el IDE use su comportamiento por defecto.
             e.printStackTrace();
             return null;
         }

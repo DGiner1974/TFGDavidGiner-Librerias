@@ -8,8 +8,6 @@ import es.uned.TFGDavidGiner.core.BaseComponent;
 
 /**
  * Implementa el patrón Builder para construir un ButtonPanelContainer.
- * Su orientación es siempre vertical para mantener un layout estándar de
- * contenido arriba y botonera abajo.
  */
 public class ButtonPanelContainerBuilder {
     private BaseComponent content;

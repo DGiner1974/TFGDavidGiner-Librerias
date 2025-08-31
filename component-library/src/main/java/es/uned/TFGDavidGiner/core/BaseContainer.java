@@ -24,7 +24,7 @@ import es.uned.TFGDavidGiner.core.interfaces.IValidation;
 
 /**
  * Clase abstracta que representa un contenedor base para componentes de la interfaz gráfica.
- * Es el contenedor base del que heredan los contenedores de los LeakComponent. 
+ * Es el contenedor base del que heredan los contenedores de los LeafComponent. 
  * Extiende {@link BaseComponent} y gestiona un conjunto de componentes hijos.
  * Su principal funcionalidad es establecer automáticamente la sincronización de datos
  * entre los componentes {@link LeafComponent} que contiene, basándose en propiedades compartidas.

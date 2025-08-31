@@ -1,6 +1,5 @@
 package es.uned.TFGDavidGiner.components.containers;
 
-import es.uned.TFGDavidGiner.core.SplitOrientation;
 import java.beans.BeanDescriptor;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

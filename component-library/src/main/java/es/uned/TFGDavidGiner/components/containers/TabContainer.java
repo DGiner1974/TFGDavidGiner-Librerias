@@ -61,10 +61,6 @@ public class TabContainer extends BaseContainer {
             contentPane = new CustomTab();
             add(contentPane, BorderLayout.CENTER);
 
-            // Se registra como ContainerListener de su propio panel de pestañas
-            // para interceptar la adición de nuevos componentes.
-            //contentPane.addContainerListener(this);
-
             isDuringInitializationOrLoading = true;
         } catch (Exception e) {
             e.printStackTrace();

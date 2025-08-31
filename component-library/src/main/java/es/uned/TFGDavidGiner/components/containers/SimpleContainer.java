@@ -5,6 +5,7 @@ import es.uned.TFGDavidGiner.core.BaseComponent;
 import es.uned.TFGDavidGiner.core.BaseContainer;
 import javax.swing.*;
 import java.awt.*;
+import java.beans.Beans;
 
 /**
  * Contenedor simple que utiliza un {@link JSplitPane} para mostrar uno o dos
@@ -83,8 +84,6 @@ public class SimpleContainer extends BaseContainer {
     }
 
     /**
-     * Se notifica a este componente que ha sido añadido a un contenedor.
-     * <p>
      * Se aprovecha este método del ciclo de vida de Swing para marcar el fin
      * de la inicialización, permitiendo que la lógica de actualización se ejecute.
      */
@@ -261,7 +260,16 @@ public class SimpleContainer extends BaseContainer {
                 splitPane.setLeftComponent(component);
             } else if (splitPane.getRightComponent() == null) {
                 splitPane.setRightComponent(component);
-                // Al añadir el segundo componente, ajustamos el divisor basándonos
+            } else {
+                // Si ambos huecos están ocupados, muestra un error.
+                JOptionPane.showMessageDialog(this,
+                        "Solo se pueden añadir 2 componentes como máximo.",
+                        "Contenedor lleno", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            
+            if (Beans.isDesignTime()) {
+                // Si estamos en tiempo de diseño, al añadir el segundo componente, ajustamos el divisor basándonos
                 // en el tamaño preferido del primer componente.
                 SwingUtilities.invokeLater(() -> {
                     Component leftComponent = splitPane.getLeftComponent();
@@ -277,12 +285,6 @@ public class SimpleContainer extends BaseContainer {
                         splitPane.setResizeWeight(0.0);
                     }
                 });
-
-            } else {
-                // Si ambos huecos están ocupados, muestra un error.
-                JOptionPane.showMessageDialog(this,
-                        "Solo se pueden añadir 2 componentes como máximo.",
-                        "Contenedor lleno", JOptionPane.WARNING_MESSAGE);
             }
 
             // 5. Actualiza la UI si es necesario.

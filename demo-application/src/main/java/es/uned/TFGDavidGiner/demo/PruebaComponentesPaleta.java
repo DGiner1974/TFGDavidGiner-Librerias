@@ -14,12 +14,10 @@ package es.uned.TFGDavidGiner.demo;
  * {@code ComponenteB}, etc.) pueden ser ensamblados visualmente desde la paleta
  * de componentes para crear una interfaz de usuario compleja y jerárquica.
  * <p>
- * La estructura anidada y la botonera demuestran la aplicación de los patrones
- * de diseño Composite y Command para la validación atómica de la edición.
+ * La estructura anidada y la botonera demuestran la aplicación del patrón
+ * de diseño Composite para la validación atómica de la edición.
  *
  * @author dginer
- * @version 1.0
- * @since 2025-07-13
  */
 public class PruebaComponentesPaleta extends javax.swing.JFrame {
 
