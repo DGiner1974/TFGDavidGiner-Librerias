@@ -112,14 +112,14 @@ public abstract class BaseContainer extends BaseComponent {
                             // Usar reflexión para obtener el valor actualizado del componente de origen.
                             String nombreGetter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
                             System.out.println(nombreGetter + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
-                            Method getter = origin.getClass().getMethod(nombreGetter);
-                            Object getterSource = getter.invoke(origin);
+                            //Obtenemos el valor de la propiedad del propio PropertyChangeEvent
+                            Object newValue = evt.getNewValue();
 
                             // Usar reflexión para obtener el valor actual del componente de destino.
                             Method getterT = destiny.getClass().getMethod(nombreGetter);
                             Object getterTarget = getterT.invoke(destiny);
 
-                            System.out.println("getterTarget: " + (getterTarget!=null?getterTarget.toString():"null") + " - " + "getterSource: " + (getterSource!=null?getterSource.toString():"null"));
+                            System.out.println("getterTarget: " + (getterTarget!=null?getterTarget.toString():"null") + " - " + "getterSource: " + (newValue!=null?newValue.toString():"null"));
                             // Actualizar el destino solo si el valor es diferente, para evitar ciclos infinitos.
                             
                             //if (getterTarget != getterSource) {
@@ -127,7 +127,7 @@ public abstract class BaseContainer extends BaseComponent {
                                 String setterName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
                                 System.out.println(setterName + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
                                 Method setter = destiny.getClass().getMethod(setterName, destinyprop);
-                                setter.invoke(destiny, getterSource);
+                                setter.invoke(destiny, newValue);
                             //}
                         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | IllegalArgumentException ex) {
                             // Registrar cualquier excepción ocurrida durante el proceso de reflexión.
@@ -162,7 +162,14 @@ public abstract class BaseContainer extends BaseComponent {
                         // Para cada par de componentes hoja distintos, establecer un listener.
                         // Esto crea una sincronización en ambas direcciones.
                         if (c2 instanceof IShareableProperties  && c != c2) {
-                            AddListener(c2, c);
+                            IShareableProperties origin = (IShareableProperties) c;
+                            IShareableProperties destiny = (IShareableProperties) c2;
+                            //Sólo añadimos el listener si tiene propiedades compartidas en común.
+                            if(!origin.propertiesInCommon(destiny.getSharedProperies()).isEmpty()) {
+                                AddListener(c2, c);
+                            } else {
+                                System.out.println("No creamos listener entre " + c.getClass().getName() + " y " + c2.getClass().getName());
+                            }
                         }
                     }
                 }

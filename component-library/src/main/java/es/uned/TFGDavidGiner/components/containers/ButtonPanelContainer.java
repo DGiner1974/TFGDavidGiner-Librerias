@@ -147,7 +147,7 @@ public class ButtonPanelContainer extends BaseContainer implements ActionListene
                     }
                 }
             }
-            // Opcional: Si todo es válido, mostrar un mensaje de éxito.
+            // Si todo es válido, mostrar un mensaje de éxito.
             JOptionPane.showMessageDialog(this, "Todos los componentes son válidos.", "Validación Correcta", JOptionPane.INFORMATION_MESSAGE);
 
         } else if (ButtonPanel.CANCEL_COMMAND.equals(command)) {
