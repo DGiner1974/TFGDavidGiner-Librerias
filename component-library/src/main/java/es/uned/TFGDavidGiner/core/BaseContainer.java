@@ -108,19 +108,19 @@ public abstract class BaseContainer extends BaseComponent {
                     // ...y si los tipos de la propiedad en ambos componentes son compatibles...
                     if (destinyprop.getName().equals(originprop.getName())) {
                         try {
-                            System.out.println(originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
-                            // Usar reflexión para obtener el valor actualizado del componente de origen.
-                            String nombreGetter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
-                            System.out.println(nombreGetter + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
+//                            System.out.println(originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
+//                            // Usar reflexión para obtener el valor actualizado del componente de origen.
+//                            String nombreGetter = "get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
+//                            System.out.println(nombreGetter + " - " + originComp.getClass().getName() + " " + destinyComp.getClass().getName() + " " + originprop.getName() + " " + destinyprop.getName());
                             //Obtenemos el valor de la propiedad del propio PropertyChangeEvent
                             Object newValue = evt.getNewValue();
 
-                            // Usar reflexión para obtener el valor actual del componente de destino.
-                            Method getterT = destiny.getClass().getMethod(nombreGetter);
-                            Object getterTarget = getterT.invoke(destiny);
-
-                            System.out.println("getterTarget: " + (getterTarget!=null?getterTarget.toString():"null") + " - " + "getterSource: " + (newValue!=null?newValue.toString():"null"));
-                            // Actualizar el destino solo si el valor es diferente, para evitar ciclos infinitos.
+//                            // Usar reflexión para obtener el valor actual del componente de destino.
+//                            Method getterT = destiny.getClass().getMethod(nombreGetter);
+//                            Object getterTarget = getterT.invoke(destiny);
+//
+//                            System.out.println("getterTarget: " + (getterTarget!=null?getterTarget.toString():"null") + " - " + "getterSource: " + (newValue!=null?newValue.toString():"null"));
+//                            // Actualizar el destino solo si el valor es diferente, para evitar ciclos infinitos.
                             
                             //if (getterTarget != getterSource) {
                                 // Construir y invocar el método setter en el componente de destino.
